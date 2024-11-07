@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: 'pausingInfo' '1.0'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
 "POT-Creation-Date: 2024-11-06 00:15-0300\n"
-"PO-Revision-Date: 2024-11-06 00:16-0300\n"
+"PO-Revision-Date: 2024-11-06 00:18-0300\n"
 "Last-Translator: \n"
 "Language-Team: Wendrill Aksenow Brandão <wendrillaksenow@gmail.com>\n"
-"Language: pt_PT\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,7 +39,7 @@ msgstr "caixa combinada"
 
 #: addon\globalPlugins\pausingInfo.py:20
 msgid "dialog"
-msgstr "janela"
+msgstr "diálogo"
 
 #: addon\globalPlugins\pausingInfo.py:21
 msgid "document"
@@ -59,7 +59,7 @@ msgstr "gráfico"
 
 #: addon\globalPlugins\pausingInfo.py:25
 msgid "grouping"
-msgstr "agrupamento"
+msgstr "grupo"
 
 #: addon\globalPlugins\pausingInfo.py:26
 msgid "heading"
@@ -67,7 +67,7 @@ msgstr "cabeçalho"
 
 #: addon\globalPlugins\pausingInfo.py:27
 msgid "hot key field"
-msgstr "campo de tecla de atalho"
+msgstr "campo de teclas de atalho"
 
 #: addon\globalPlugins\pausingInfo.py:28
 msgid "icon"
@@ -91,7 +91,7 @@ msgstr "item de lista"
 
 #: addon\globalPlugins\pausingInfo.py:33
 msgid "menu bar"
-msgstr "barra de menu"
+msgstr "barra de menus"
 
 #: addon\globalPlugins\pausingInfo.py:34
 msgid "menu button"
@@ -107,7 +107,7 @@ msgstr "menu"
 
 #: addon\globalPlugins\pausingInfo.py:37
 msgid "progress bar"
-msgstr "barra de evolução"
+msgstr "barra de progresso"
 
 #: addon\globalPlugins\pausingInfo.py:38
 msgid "property page"
@@ -115,15 +115,15 @@ msgstr "página de propriedades"
 
 #: addon\globalPlugins\pausingInfo.py:39
 msgid "radio button"
-msgstr "botão de rádio"
+msgstr "caixa de opção"
 
 #: addon\globalPlugins\pausingInfo.py:40
 msgid "radio menu item"
-msgstr "item de menu com botão de rádio"
+msgstr "item de menu com caixa de opção"
 
 #: addon\globalPlugins\pausingInfo.py:41
 msgid "scroll bar"
-msgstr "barra de deslocamento"
+msgstr "barra de rolagem"
 
 #: addon\globalPlugins\pausingInfo.py:42
 msgid "separator"
@@ -131,11 +131,11 @@ msgstr "separador"
 
 #: addon\globalPlugins\pausingInfo.py:43
 msgid "slider"
-msgstr "controlo de deslize"
+msgstr "marcador de valor"
 
 #: addon\globalPlugins\pausingInfo.py:44
 msgid "split button"
-msgstr "botão separador"
+msgstr "botão de divisão"
 
 #: addon\globalPlugins\pausingInfo.py:45
 msgid "text"
@@ -143,7 +143,7 @@ msgstr "texto estático"
 
 #: addon\globalPlugins\pausingInfo.py:46
 msgid "status bar"
-msgstr "barra de estado"
+msgstr "barra de status"
 
 #: addon\globalPlugins\pausingInfo.py:47
 msgid "switch"
@@ -151,11 +151,11 @@ msgstr "alternador"
 
 #: addon\globalPlugins\pausingInfo.py:48
 msgid "tab"
-msgstr "separador de página"
+msgstr "guia de página"
 
 #: addon\globalPlugins\pausingInfo.py:49
 msgid "tab control"
-msgstr "controlo do separador"
+msgstr "controle de guias"
 
 #: addon\globalPlugins\pausingInfo.py:50
 msgid "table"
@@ -163,11 +163,11 @@ msgstr "tabela"
 
 #: addon\globalPlugins\pausingInfo.py:51
 msgid "colunn header"
-msgstr "título de coluna"
+msgstr "cabeçalho de coluna"
 
 #: addon\globalPlugins\pausingInfo.py:52
 msgid "toggle button"
-msgstr "botão de comutação"
+msgstr "botão de alternância"
 
 #: addon\globalPlugins\pausingInfo.py:53
 msgid "tool bar"
@@ -175,15 +175,15 @@ msgstr "barra de ferramentas"
 
 #: addon\globalPlugins\pausingInfo.py:54
 msgid "tool tip"
-msgstr "sugestão"
+msgstr "dica de ferramenta"
 
 #: addon\globalPlugins\pausingInfo.py:55
 msgid "tree view"
-msgstr "vista em árvore"
+msgstr "lista hierárquica"
 
 #: addon\globalPlugins\pausingInfo.py:56
 msgid "tree view item"
-msgstr "item da vista em árvore"
+msgstr "item da lista hierárquica"
 
 #: addon\globalPlugins\pausingInfo.py:57
 msgid "window"
@@ -191,7 +191,7 @@ msgstr "janela"
 
 #: addon\globalPlugins\pausingInfo.py:63
 msgid "has auto complete"
-msgstr "tem auto-completação"
+msgstr "tem preenchimento automático"
 
 #: addon\globalPlugins\pausingInfo.py:64
 msgid "busy"
@@ -215,19 +215,19 @@ msgstr "expandido"
 
 #: addon\globalPlugins\pausingInfo.py:69
 msgid "half checked"
-msgstr "parcialmente marcado"
+msgstr "meio marcado"
 
 #: addon\globalPlugins\pausingInfo.py:70
 msgid "half pressed"
-msgstr "semi pressionado"
+msgstr "meio pressionado"
 
 #: addon\globalPlugins\pausingInfo.py:71
 msgid "has long description"
-msgstr "tem descrição longa"
+msgstr "tem uma descrição longa"
 
 #: addon\globalPlugins\pausingInfo.py:72
 msgid "subMenu"
-msgstr "comtém submenus"
+msgstr "contém submenus"
 
 #: addon\globalPlugins\pausingInfo.py:73
 msgid "invalid entry"
@@ -239,7 +239,7 @@ msgstr "multilinha"
 
 #: addon\globalPlugins\pausingInfo.py:75
 msgid "on"
-msgstr "ligado"
+msgstr "ativado"
 
 #: addon\globalPlugins\pausingInfo.py:76
 msgid "pressed"
@@ -251,23 +251,23 @@ msgstr "protegida"
 
 #: addon\globalPlugins\pausingInfo.py:78
 msgid "read only"
-msgstr "só de leitura"
+msgstr "somente leitura"
 
 #: addon\globalPlugins\pausingInfo.py:79
 msgid "required"
-msgstr "requerido"
+msgstr "obrigatório"
 
 #: addon\globalPlugins\pausingInfo.py:80
 msgid "sorted"
-msgstr "ordenado"
+msgstr "classificado"
 
 #: addon\globalPlugins\pausingInfo.py:81
 msgid "sorted ascending"
-msgstr "ordenado por ordem crescente"
+msgstr "classificado em ordem crescente"
 
 #: addon\globalPlugins\pausingInfo.py:82
 msgid "sorted descending"
-msgstr "ordenado por ordem decrescente"
+msgstr "classificado em ordem decrescente"
 
 #: addon\globalPlugins\pausingInfo.py:83
 msgid "unavailable"
@@ -283,7 +283,7 @@ msgstr "desmarcado"
 
 #: addon\globalPlugins\pausingInfo.py:91
 msgid "off"
-msgstr "desligado"
+msgstr "desativado"
 
 #: addon\globalPlugins\pausingInfo.py:92
 msgid "not pressed"
@@ -291,7 +291,7 @@ msgstr "não pressionado"
 
 #: addon\globalPlugins\pausingInfo.py:93
 msgid "not selected"
-msgstr "não seleccionado"
+msgstr "não selecionado"
 
 #. Translators: Announced before a slider value
 #: addon\globalPlugins\pausingInfo.py:157
@@ -321,14 +321,14 @@ msgstr "Atalho: {shortcut}"
 #: addon\globalPlugins\pausingInfo.py:197
 #, python-brace-format
 msgid "Selected {text}"
-msgstr "Seleccionado {text}"
+msgstr "Selecionado {text}"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
 #. to be shown on installation and add-on information found in Add-ons Manager.
 #: buildVars.py:23
 msgid "Pausing Information"
-msgstr "Informação Pausada"
+msgstr "Informações Pausadas"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
@@ -337,8 +337,8 @@ msgid ""
 "Inserts pauses when reading control information. Adds pauses (hyphens) "
 "between the name of a control and its additional information."
 msgstr ""
-"Insere pausas durante a leitura das informações de controlo. Adiciona pausas "
-"(hífenes) entre o nome de um controlo e a sua informação adicional."
+"Insere pausas ao ler informações de controle. Adiciona pausas (hífens) entre "
+"o nome de um controle e suas informações adicionais."
 
 #. Translators: Displays a message to the user asking if they want to uninstall the previous version of the add-on
 #: installTasks.py:12
@@ -348,10 +348,10 @@ msgid ""
 "the add-on to work properly, this version must be uninstalled. Do you want "
 "to uninstall the previous version now?"
 msgstr ""
-"Devido a um erro técnico, o nome interno da versão anterior deste extra "
-"estava incorreto, o que o torna incompatível com esta nova versão. Para que "
-"o extra funcione corretamente, esta versão tem de ser desinstalada. Pretende "
-"desinstalar agora a versão anterior?"
+"Devido a um erro técnico, o nome interno da versão anterior deste "
+"complemento estava incorreto, o que o torna incompatível com esta nova "
+"versão. Para que o complemento funcione corretamente, esta versão deve ser "
+"desinstalada. Deseja desinstalar a versão anterior agora?"
 
 #. Translators: question title
 #: installTasks.py:14
@@ -360,4 +360,4 @@ msgstr "Versão anterior encontrada"
 
 #: installTasks.py:19
 msgid "Installation canceled by the user."
-msgstr "Instalação cancelada pelo utilizador."
+msgstr "Instalação cancelada pelo usuário."

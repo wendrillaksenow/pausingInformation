@@ -20,18 +20,18 @@ addon_info = {
 	# Add-on summary, usually the user visible name of the addon.
 	# Translators: Summary for this add-on
 	# to be shown on installation and add-on information found in Add-ons Manager.
-	"addon_summary": _("Pausing Information (Initial Prototype"),
+	"addon_summary": _("Pausing Information"),
 	# Add-on description
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description": _("""Inserts pauses when reading control information. Adds pauses (hyphens) between the name of a control and its additional information."""),
 	# version
-	"addon_version": "0.1",
+	"addon_version": "1.0",
 	# Author(s)
 	"addon_author": "Wendrill Aksenow Brandão <wendrillaksenow@gmail.com>",
 	# URL for the add-on documentation support
-	"addon_url": https://github.com/wendrillaksenow/pausingInformation,
+	"addon_url": "https://github.com/wendrillaksenow/pausingInformation",
 	# URL for the add-on repository where the source code can be found
-	"addon_sourceURL": https://github.com/wendrillaksenow/pausingInformation,
+	"addon_sourceURL": "https://github.com/wendrillaksenow/pausingInformation",
 	# Documentation file name
 	"addon_docFileName": "readme.html",
 	# Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
@@ -43,9 +43,9 @@ addon_info = {
 	# Do not change unless you know what you are doing!
 	"addon_updateChannel": None,
 	# Add-on license such as GPL 2
-	"addon_license": None,
+	"addon_license": "GPL v2",
 	# URL for the license document the ad-on is licensed under
-	"addon_licenseURL": None,
+	"addon_licenseURL": "https://www.gnu.org/licenses/gpl-2.0.html",
 }
 
 # Define the python files that are the sources of your add-on.
@@ -56,10 +56,10 @@ addon_info = {
 # pythonSources = ["addon/globalPlugins/*.py"]
 # For more information on SCons Glob expressions please take a look at:
 # https://scons.org/doc/production/HTML/scons-user/apd.html
-pythonSources = []
+pythonSources = ["addon/globalPlugins/pausingInfo.py"]
 
 # Files that contain strings for translation. Usually your python sources
-i18nSources = pythonSources + ["buildVars.py"]
+i18nSources = pythonSources + ["buildVars.py", "installTasks.py"]
 
 # Files that will be ignored when building the nvda-addon file
 # Paths are relative to the addon directory, not to the root directory of your addon sources.
