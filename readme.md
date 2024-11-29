@@ -31,12 +31,25 @@ As mentioned, no additional configuration is required when using the add-on. The
 
 However, the following configuration options, which allow you to adjust the operation of the add-on to your liking or needs, are available from the “Pausing information” category in the NVDA settings dialog:
 
+* Enable paused reading of control types and states: If you uncheck this option, the add-on will be completely disabled and all other configuration options will be unavailable. You can also activate/deactivate the add-on using the NVDA+Shift+P shortcut. This shortcut can be modified from NVDA's "Input gestures" dialog, "Pausing information" category.
 * Allow the add-on to translate the names of control types and states: If this option is checked, the add-on will use an internal dictionary to translate the names of the types and states of the controls. Otherwise, NVDA's internal translations will be used.
 Note: For now, this option only has a major impact on Portuguese languages. In English, there are no significant differences.
 * Message length: This group of radio buttons controls the amount of information to be spoken.
     * Short: Only essential NVDA navigation information will be spoken.
     * Medium: In addition to NVDA's essential navigation information, some extra information will be added. For example, when an object has a shortcut key associated with it, you will hear the information "shortcut" before the shortcut key is announced. You will also hear the "value" information before announcing the value of the sliders and scroll bars.
     * Long: The add-on will add another set of information on top of the above. When you navigate through the items in a list, tree view or menus, you will hear the corresponding information according to the type of item. The add-on will also warn you whenever a window is activated. This is the default setting.
+    * Custom: With this option, you can individually control all the information announced by the add-on.
+
+#### Settings for the custom level
+
+By setting the message extension level to "Custom", you can individually adjust all the information announced by the add-on, for example, you can deactivate the information you don't want or don't need to be announced. You can do this via the "Configure" button. This button is only available when the custom message extension level is selected. Clicking this button opens a configuration dialog for the custom level, with the following options:
+
+* Select the controls to be announced: In this list, you can activate or deactivate all the control types supported by the add-on. For deactivated controls, only the name and status (if applicable) will be announced.
+
+* Other additional messages: This group of controls contains the following options:
+    * Announce active windows: Announces whenever a window is activated.
+    * Announce shortcut before object shortcut keys: When an object has an associated shortcut key, it announces the "shortcut" information before the corresponding shortcut key is announced.
+    * Announce value before slider and scrollbar values: When focusing on a slider or scroll bar, it announces the "value" information before the value is announced.
 
 ## Known issues
 
@@ -46,7 +59,7 @@ Note: For now, this option only has a major impact on Portuguese languages. In E
     * When a toggle button is pressed or a list item is selected, deactivating the button or deselecting the item does not announce them.
     * This fault only occurs the first time you deselect a checkbox, deactivate a toggle button or deselect a list item with the Spacebar or Control+Spacebar.
     * To be sure, you can use the NVDA+Tab shortcut to have the information repeated by NVDA. In this case, the status will be announced correctly.
-* In some types of menus, such as those in Thunderbird, the reading is a little strange. The information “submenu” is announced several times, even when it is not necessary.
+* In some types of menus, such as those in Thunderbird, the reading is a little strange. The information “submenu” is announced several times, even when it is not necessary. In these cases, until a solution to this problem is found, it is recommended to temporarily disable the add-on via the shortcut key when navigating through Thunderbird menus and other similar menus.
 * The announcement of active windows means that when you focus on any part of the taskbar, the first item is not announced. This also applies to the task switcher, accessible with Alt+Tab.
 
 ## Future Development
@@ -56,6 +69,13 @@ This add-on was created as a prototype. When the DeltaTalk synthesizer add-on fo
 Special thanks to Chat GPT for his exhaustive collaboration in the development of this prototype, and also to Claude for his help with the additional tweaks that greatly improved the functionality.
 
 ## Change history
+
+### Version 1.3
+
+* First official release version.
+* A customized message extension level has been implemented, which allows you to individually control all the information announced by the add-on.
+* A new configuration option has been created to completely disable the add-on.
+* An enable/disable hotkey has also been implemented, which is especially useful for temporarily disabling the add-on in certain cases.
 
 ### Version 1.2
 
