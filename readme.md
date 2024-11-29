@@ -60,7 +60,6 @@ By setting the message extension level to "Custom", you can individually adjust 
     * This fault only occurs the first time you deselect a checkbox, deactivate a toggle button or deselect a list item with the Spacebar or Control+Spacebar.
     * To be sure, you can use the NVDA+Tab shortcut to have the information repeated by NVDA. In this case, the status will be announced correctly.
 * In some types of menus, such as those in Thunderbird, the reading is a little strange. The information “submenu” is announced several times, even when it is not necessary. In these cases, until a solution to this problem is found, it is recommended to temporarily disable the add-on via the shortcut key when navigating through Thunderbird menus and other similar menus.
-* The announcement of active windows means that when you focus on any part of the taskbar, the first item is not announced. This also applies to the task switcher, accessible with Alt+Tab.
 
 ## Future Development
 
@@ -69,6 +68,10 @@ This add-on was created as a prototype. When the DeltaTalk synthesizer add-on fo
 Special thanks to Chat GPT for his exhaustive collaboration in the development of this prototype, and also to Claude for his help with the additional tweaks that greatly improved the functionality.
 
 ## Change history
+
+### Version 1.4
+
+* Fixed an error with the announcement of active windows that caused the first item not to be announced when focusing on the taskbar or switching between tasks with the Alt+Tab shortcut. This problem also affected some items in normal windows, which were ignored.
 
 ### Version 1.3
 

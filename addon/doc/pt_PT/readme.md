@@ -58,7 +58,6 @@ Ao definir o nível de extensão da mensagem como “Personalizado”, pode ajus
     * Esta falha só ocorre na primeira vez que se desmarca uma caixa de verificação, se desativa um botão de alternância ou se anula a seleção de um item de lista com a Barra de Espaço ou Control+Barra de Espaço.
     * Para ter a certeza, pode utilizar o atalho NVDA+Tab para que a informação seja repetida pelo NVDA. Neste caso, o estado será anunciado corretamente.
 * Em alguns tipos de menus, como os do Thunderbird, a leitura é um pouco estranha. A informação “submenu” é anunciada várias vezes, mesmo quando não é necessária. Nestes casos, até que seja encontrada uma solução para este problema, recomenda-se desativar temporariamente o extra através da tecla de atalho ao navegar pelos menus do Thunderbird e outros menus semelhantes.
-* O anúncio de janelas ativas faz com que, ao focar qualquer parte da barra de tarefas, o primeiro item não seja anunciado. Isto também se aplica ao alternador de tarefas, acessível com Alt+Tab.
 
 ## Desenvolvimento Futuro
 
@@ -67,6 +66,10 @@ Este extra foi criado como um protótipo. Quando o extra do sintetizador DeltaTa
 Um agradecimento especial ao Chat GPT pela sua colaboração exaustiva no desenvolvimento deste protótipo, e também ao Claude pela sua ajuda nos ajustes adicionais que melhoraram muito o funcionamento.
 
 ## Histórico de alterações
+
+### Versão 1.4
+
+* Foi corrigido um erro com o anúncio de janelas ativas que fazia com que, ao focar a barra de tarefas ou alternar entre tarefas com o atalho Alt+Tab, o primeiro item não fosse anunciado. Este problema também afectava alguns itens em janelas normais, que eram ignorados.
 
 ### Versão 1.3
 

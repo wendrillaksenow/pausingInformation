@@ -75,6 +75,7 @@ STATE_NAMES = {
 	controlTypes.State.HALF_PRESSED: _("half pressed"),
 	controlTypes.State.HASLONGDESC: _("has long description"),
 	controlTypes.State.HASPOPUP: _("subMenu"),
+	# controlTypes.State.INTERNAL_LINK: _("same page"),
 	controlTypes.State.INVALID_ENTRY: _("invalid entry"),
 	controlTypes.State.MULTILINE: _("multi line"),
 	controlTypes.State.ON: _("on"),
@@ -310,8 +311,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		speech.speakObject = self.customSpeakObject
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(PausingInfoSettingsPanel)
 		self.last_announced_window = None
-		self.in_task_switcher = False
-		self.skip_next_speak = False
 
 	def terminate(self):
 		speech.speakObject = self.originalSpeakObject
@@ -327,7 +326,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	)
 	def script_togglePausingInfo(self, gesture):
 		config.conf["PausingInfo"]["enabled"] = not config.conf["PausingInfo"]["enabled"]
-		# Translators: Message announced when Pausing Information is enabled or disabled.
+		# Translators: Message announced when Pausing Info is enabled or disabled.
 		message = _("Pausing Information enabled") if config.conf["PausingInfo"]["enabled"] else _("Pausing Information disabled")
 		ui.message(message)
 
@@ -349,22 +348,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			return
 
 		# Announce active windows, respecting the settings
-		if obj.role in [controlTypes.Role.PANE, controlTypes.Role.WINDOW] and obj.windowClassName == "TaskSwitcherWnd":
-			if not self.in_task_switcher:
-				# Avoid the repeated announcement of the last active window when switching tasks
-				self.in_task_switcher = True
-				nextHandler
 		elif obj.role in [controlTypes.Role.DIALOG, controlTypes.Role.PANE, controlTypes.Role.WINDOW]:
-			if obj.name != self.last_announced_window and not self.in_task_switcher:
-				# Translators: Announced when any window or dialog is activated, including the Desktop
-				message = _("Window activated: {name}").format(name=obj.name if obj.name != "Program Manager" else _("Desktop - list"))
+			if obj.name != self.last_announced_window:
+				# Translators: Announced when any window or dialog is activated
+				message = _("Window activated: {name}").format(name=obj.name if obj.name != "Program Manager" else " ")  # For the Desktop, the character string is empty to avoid duplication of the announcement by NVDA. There could be a better solution!
 				if obj.description:
 					message += f" - {obj.description}"
 				nextHandler()
 				ui.message(message)
 				self.last_announced_window = obj.name
-				self.skip_next_speak = True
-			self.in_task_switcher = False
 
 	# nextHandler() remains commented out to avoid problems with the announcement
 
@@ -373,12 +365,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.originalSpeakObject(obj, *args, **kwargs)
 			return
 
-		# if self.in_task_switcher:
-			# Suppress the announcement of the currently active window during task switching
-			# return
-
-		if self.skip_next_speak:
-			self.skip_next_speak = False
+		if obj.role in [controlTypes.Role.DIALOG, controlTypes.Role.PANE, controlTypes.Role.WINDOW] and obj.name == self.last_announced_window:
+			self.last_announced_window = None
 			return
 
 		try:
@@ -394,6 +382,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 			# If the message extension is 3 (Custom), apply the custom reading logic
 	def speakCustomLevel(self, obj):
+		if obj.role in IGNORED_CONTROL_TYPES:
+			self.originalSpeakObject(obj, *args, **kwargs)
+			return
+
 		description_parts = []
 		enabledControls = config.conf["PausingInfo"].get("enabledControls", [])
 		control_type_name = CONTROL_TYPE_NAMES.get(obj.role)
@@ -413,7 +405,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			description_parts.append(control_type_name)
 
 		# Announce the description of the objects that have it
-		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
+		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.LISTITEM, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
 			if obj.description:
 				description_parts.append(obj.description)
 
@@ -438,7 +430,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				description_parts.append(str(obj.keyboardShortcut))
 
 		# Announce position information, when applicable
-		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.TREEVIEWITEM]:
+		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
 			position_info = self.get_position_info(obj)
 			if position_info:
 				description_parts.extend(position_info)
@@ -473,9 +465,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		# Object name
 		if obj.name:
-			# Ignore the list name "Desktop" if the window is "Program Manager"
-			if obj.name and not (obj.role == controlTypes.Role.LIST and obj.parent and obj.parent.name == "Program Manager"):
-				description_parts.append(obj.name)
+			description_parts.append(obj.name)
 
 		# Processing the combo boxes and hotkey fields
 		if obj.role in [controlTypes.Role.COMBOBOX, controlTypes.Role.HOTKEYFIELD]:
@@ -489,7 +479,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				description_parts.append(control_type)
 
 		# Read the description of certain objects, where applicable
-		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
+		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.LISTITEM, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
 			if obj.description:
 				description_parts.append(obj.description)
 
@@ -516,7 +506,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		description_parts.extend(relevant_states)
 
 		# Processing the index and the level of items in the tree view, in lists and in other objects, where applicable
-		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.TREEVIEWITEM]:
+		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
 			position_info = self.get_position_info(obj)
 			if position_info:
 				description_parts.extend(position_info)
@@ -626,7 +616,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				return NEGATIVE_STATE_NAMES[controlTypes.State.PRESSED] if controlTypes.State.PRESSED not in obj.states else None
 			elif obj.role == controlTypes.Role.SWITCH:
 				return NEGATIVE_STATE_NAMES[controlTypes.State.ON] if controlTypes.State.ON not in obj.states else None
-			elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TREEVIEWITEM]:
+			elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
 				return NEGATIVE_STATE_NAMES[controlTypes.State.SELECTED] if controlTypes.State.SELECTED not in obj.states else None
 		else:
 			if obj.role == controlTypes.Role.CHECKBOX:
@@ -637,7 +627,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				return controlTypes.negativeStateLabels[controlTypes.State.PRESSED] if controlTypes.State.PRESSED not in obj.states else None
 			elif obj.role == controlTypes.Role.SWITCH:
 				return controlTypes.negativeStateLabels[controlTypes.State.ON] if controlTypes.State.ON not in obj.states else None
-			elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TREEVIEWITEM]:
+			elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
 				return controlTypes.negativeStateLabels[controlTypes.State.SELECTED] if controlTypes.State.SELECTED not in obj.states else None
 		return None
 

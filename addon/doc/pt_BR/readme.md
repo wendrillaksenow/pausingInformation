@@ -37,7 +37,7 @@ No entanto, as seguintes opções de configuração, que permitem ajustar a oper
     * Curtas: Somente informações essenciais de navegação do NVDA serão faladas.
     * Médias: Além das informações essenciais de navegação do NVDA, mais algumas informações serão adicionadas pelo complemento. Por exemplo, quando um objeto possui uma tecla de atalho associada, você ouvirá "atalho" antes que a tecla de atalho seja anunciada. Você também ouvirá a informação "valor" antes de anunciar o valor dos controles deslizantes e das barras de rolagem.
     * Longas: O complemento adicionará outro conjunto de informações além dos anteriores. Ao navegar pelos itens de uma lista, itens da árvore ou itens de menu, você ouvirá as informações correspondentes de acordo com o tipo de item. O complemento também irá notificá-lo sempre que uma janela for ativada. Esta é a configuração padrão.
-    * Personalizadas: Com esta opção você pode controlar individualmente todas as informações anunciadas pelo complemento.
+    * Personalizado: Com esta opção você pode controlar individualmente todas as informações anunciadas pelo complemento.
 
 #### Configurações para o nível personalizado
 
@@ -59,7 +59,6 @@ Ao definir o nível de extensão de mensagens como "Personalizado", você pode a
     * Essa falha ocorre apenas na primeira vez que uma caixa de seleção é desmarcada, um botão de alternância  é desativado ou um item da lista  é desmarcado com a Barra de espaço ou Control+Barra de espaço.
     * Para ter certeza, você pode usar o atalho NVDA+Tab para que a informação seja repetida pelo NVDA. Neste caso, o estado será anunciado corretamente.
 * Em alguns tipos de menus, como os do Thunderbird, a leitura fica um pouco estranha. A informação "submenu" é anunciada diversas vezes, mesmo quando não é necessário. Nestes casos, até que seja encontrada uma solução para este problema, é recomendado desativar temporariamente o complemento através da tecla de atalho ao navegar nos menus do Thunderbird e outros menus semelhantes.
-* O anúncio de janelas ativas faz com que, ao focar em qualquer parte da barra de tarefas, o primeiro item não seja anunciado. Isso também se aplica ao alternador de tarefas, acessível com Alt+Tab.
 
 ## Desenvolvimento Futuro
 
@@ -68,6 +67,10 @@ Este complemento foi criado como um protótipo. Quando o complemento do sintetiz
 Agradecimentos especiais ao Chat GPT pela exaustiva colaboração no desenvolvimento deste protótipo, e também ao Claude pela ajuda nos ajustes adicionais que melhoraram muito o seu funcionamento.
 
 ## Histórico de alterações
+
+### Versão 1.4
+
+* Corrigido um erro com o anúncio de janelas ativas em que ao focar na barra de tarefas ou alternar entre tarefas com o atalho Alt+Tab, o primeiro item não era anunciado. Esse problema também afetava alguns itens das janelas normais, que eram ignorados.
 
 ### Versão 1.3
 
