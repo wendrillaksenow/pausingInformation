@@ -30,11 +30,11 @@ Conforme mencionado, nenhuma configuração adicional é necessária ao usar o c
 
 No entanto, as seguintes opções de configuração, que permitem ajustar a operação do complemento ao seu gosto ou necessidades, estão disponíveis na categoria "Informação pausada" na caixa de diálogo de configurações do NVDA:
 
-* Anunciar itens de lista: Avisa quando um item de lista for focalizado.
-* Anunciar itens da lista hierárquica: Avisa quando um item da lista hierárquica for focalizado.
-* Anunciar itens de menu: Avisa quando um item de menu for focalizado.
-* Anunciar "valor" antes dos valores do controle deslizante: ao focar em um controle deslizante ou barra de rolagem, anuncia a informação "valor" antes que o valor seja anunciado.
-* Anunciar "atalho" antes dos atalhos de objetos: Quando um objeto possui uma tecla de atalho associada, anuncia a informação "atalho" antes que a tecla de atalho correspondente seja anunciada.
+* Permitir que o complemento traduza os nomes dos tipos e estados de controle: Se esta opção estiver marcada, o complemento usará um dicionário interno para traduzir os nomes dos tipos e estados de controle. Caso contrário, serão utilizadas as traduções internas do NVDA.
+* Extensão de mensagens: Este grupo de botões de opção controla a quantidade de informações a serem faladas.
+    * Curtas: Somente informações essenciais de navegação do NVDA serão faladas.
+    * Médias: Além das informações essenciais de navegação do NVDA, mais algumas informações serão adicionadas pelo complemento. Por exemplo, quando um objeto possui uma tecla de atalho associada, você ouvirá "atalho" antes que a tecla de atalho seja anunciada. Você também ouvirá a informação "valor" antes de anunciar o valor dos controles deslizantes e das barras de rolagem.
+    * Longas: O complemento adicionará outro conjunto de informações além dos anteriores. Ao navegar pelos itens de uma lista, itens da árvore ou itens de menu, você ouvirá as informações correspondentes de acordo com o tipo de item. O complemento também irá notificá-lo sempre que uma janela for ativada. Esta é a configuração padrão.
 
 ## Problemas conhecidos
 
@@ -45,6 +45,7 @@ No entanto, as seguintes opções de configuração, que permitem ajustar a oper
     * Essa falha ocorre apenas na primeira vez que uma caixa de seleção é desmarcada, um botão de alternância  é desativado ou um item da lista  é desmarcado com a Barra de espaço ou Control+Barra de espaço.
     * Para ter certeza, você pode usar o atalho NVDA+Tab para que a informação seja repetida pelo NVDA. Neste caso, o estado será anunciado corretamente.
 * Em alguns tipos de menus, como os do Thunderbird, a leitura fica um pouco estranha. A informação "submenu" é anunciada diversas vezes, mesmo quando não é necessário.
+* O anúncio de janelas ativas faz com que, ao focar em qualquer parte da barra de tarefas, o primeiro item não seja anunciado. Isso também se aplica ao alternador de tarefas, acessível com Alt+Tab.
 
 ## Desenvolvimento Futuro
 
@@ -53,6 +54,12 @@ Este complemento foi criado como um protótipo. Quando o complemento do sintetiz
 Agradecimentos especiais ao Chat GPT pela exaustiva colaboração no desenvolvimento deste protótipo, e também ao Claude pela ajuda nos ajustes adicionais que melhoraram muito o seu funcionamento.
 
 ## Histórico de alterações
+
+### Versão 1.2
+
+* Versão de teste privada, lançada inicialmente como 1.1 e posteriormente atualizada para 1.2.
+* Foi criada uma nova opção de configuração que permite escolher se o complemento deve ou não traduzir os nomes dos tipos e estados de controle.
+* Foi implementada uma lógica de níveis de extensão de mensagens - longas, médias e curtas. No nível longo (padrão), todas as informações possíveis serão faladas. No nível médio, algumas informações serão suprimidas e no nível curto, apenas as informações essenciais serão faladas.
 
 ### Versão 1.1
 
@@ -66,8 +73,8 @@ Agradecimentos especiais ao Chat GPT pela exaustiva colaboração no desenvolvim
 ### Versão 1.0
 
 * Versão completamente reescrita do protótipo inicial, com diversas correções de bugs.
-* Foi criado um dicionário completo com os nomes dos tipos de controle e estados, com suas respectivas traduções, que serão atualizadas conforme necessário.
-* A documentação foi reescrita e será atualizada regularmente.
+* Foi criado um dicionário completo com os nomes dos tipos e estados de controle, com suas respectivas traduções.
+* A documentação foi reescrita e atualizada.
 
 ### Versão 0.1
 

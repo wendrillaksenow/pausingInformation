@@ -9,7 +9,6 @@ Esta funcionalidade foi inspirada no leitor de ecrã brasileiro “Virtual Visio
 Este extra é suposto ser utilizado com o [sintetizador DeltaTalk](https://cld.pt/dl/download/2fbe0f2a-3a24-41f3-96f5-9ff9a5a88b07/DeltaTalk%20TTS.exe?dl=true) para garantir uma experiência de leitura completa semelhante à do Virtual Vision, mas é perfeitamente compatível com qualquer outro sintetizador que esteja a ser utilizado pelo NVDA.
 
 ## Nota importante
-
 A leitura pausada baseia-se exclusivamente no nível de pontuação. São adicionados hífenes para pausar a leitura da informação. Se o nível de pontuação estiver definido para algo acima de “alguns”, os hífenes serão lidos em voz alta.
 
 Da mesma forma, se os símbolos (especificamente o hífen) não estiverem corretamente ajustados no diálogo de pronúncia da pontuação/símbolo, as pausas podem não ocorrer.
@@ -31,11 +30,11 @@ Como mencionado, não é necessária qualquer configuração adicional quando se
 
 No entanto, as seguintes opções de configuração, que lhe permitem ajustar o funcionamento do extra ao seu gosto ou às suas necessidades, estão disponíveis a partir da categoria “Informação pausada” no diálogo de configurações do NVDA:
 
-* Anunciar itens de lista: Será notificado sempre que um item de lista for focado.
-* Anunciar itens de vista em árvore: Será notificado sempre que um item de vista em árvore for focado.
-* Anunciar itens de menu: Será notificado sempre que um item de menu for focado.
-* Anunciar “valor” antes dos valores do controlo de deslize: Quando focar numa barra deslizante ou de deslocamento, anuncia a informação “valor” antes de o valor ser anunciado.
-* Anunciar “atalho” antes dos atalhos de objetos: Quando um objeto tem uma tecla de atalho associada, anuncia a informação “atalho” antes de a tecla de atalho correspondente ser anunciada.
+* Permitir que o extra traduza os nomes dos tipos e estados dos controlos: Se esta opção estiver marcada, o Extra utilizará um dicionário interno para traduzir os nomes dos tipos e estados dos controlos. Caso contrário, serão utilizadas as traduções internas do NVDA.
+* Extensão da mensagem: Este grupo de botões de opção controla a quantidade de informação a ser falada.
+    * Curta: Apenas as informações de navegação essenciais do NVDA serão faladas.
+    * Média: Para além das informações de navegação essenciais do NVDA, serão adicionadas mais algumas informações pelo extra. Por exemplo, quando um objeto tem uma tecla de atalho associada, ouvirá a informação “atalho” antes de a tecla de atalho ser anunciada. Também ouvirá a informação “valor” antes de anunciar o valor dos controlos de deslize e das barras de deslocamento.
+    * Longa: O extra adicionará outro conjunto de informações para além das anteriores. Ao navegar pelos itens de uma lista, vista de árvore ou menus, ouvirá a informação correspondente de acordo com o tipo de item. O extra também o avisará sempre que uma janela for ativada. Esta é a configuração predefinida.
 
 ## Problemas conhecidos
 
@@ -45,7 +44,8 @@ No entanto, as seguintes opções de configuração, que lhe permitem ajustar o 
     * Quando um botão de alternância é premido ou um item de lista é selecionado, a desativação do botão ou a anulação da seleção do item não os anuncia.
     * Esta falha só ocorre na primeira vez que se desmarca uma caixa de verificação, se desativa um botão de alternância ou se anula a seleção de um item de lista com a Barra de Espaço ou Control+Barra de Espaço.
     * Para ter a certeza, pode utilizar o atalho NVDA+Tab para que a informação seja repetida pelo NVDA. Neste caso, o estado será anunciado corretamente.
-* Em alguns tipos de menus, como os do Thunderbird, a leitura é um pouco estranha. A informação “submenu” é anunciada várias vezes, mesmo quando não é necessária.
+* Em alguns tipos de menus, como os do Thunderbird, a leitura é um pouco estranha. A informação “submenu” é anunciada várias vezes, mesmo quando não é necessária. 
+* O anúncio de janelas ativas faz com que, ao focar qualquer parte da barra de tarefas, o primeiro item não seja anunciado. Isto também se aplica ao alternador de tarefas, acessível com Alt+Tab.
 
 ## Desenvolvimento Futuro
 
@@ -54,6 +54,12 @@ Este extra foi criado como um protótipo. Quando o extra do sintetizador DeltaTa
 Um agradecimento especial ao Chat GPT pela sua colaboração exaustiva no desenvolvimento deste protótipo, e também ao Claude pela sua ajuda nos ajustes adicionais que melhoraram muito o funcionamento.
 
 ## Histórico de alterações
+
+### Versão 1.2
+
+* Versão de teste privada, inicialmente lançada como 1.1 e posteriormente atualizada para 1.2.
+* Foi criada uma nova opção de configuração que lhe permite escolher se o extra deve ou não traduzir os nomes dos tipos e estados dos controlos.
+* Foi implementada uma lógica de níveis de extensão da mensagem - longa, média e curta. No nível longo (predefinição), todas as informações possíveis serão faladas. No nível médio, algumas informações serão suprimidas e no nível curto, apenas as informações essenciais serão faladas.
 
 ### Versão 1.1
 
@@ -67,8 +73,8 @@ Um agradecimento especial ao Chat GPT pela sua colaboração exaustiva no desenv
 ### Versão 1.0
 
 * Versão completamente reescrita a partir do protótipo inicial, com várias correções de erros.
-* Foi criado um dicionário completo com os nomes dos tipos e estados de controlo, com as respetivas traduções, que será atualizado conforme necessário.
-* A documentação foi reescrita e será atualizada regularmente.
+* Foi criado um dicionário completo com os nomes dos tipos e estados de controlo, com as respetivas traduções.
+* A documentação foi reescrita e atualizada.
 
 ### Versão 0.1
 

@@ -1,4 +1,4 @@
-## “Pausing Information” add-on for NVDA
+# “Pausing Information” add-on for NVDA
 
 ## Description
 
@@ -31,11 +31,12 @@ As mentioned, no additional configuration is required when using the add-on. The
 
 However, the following configuration options, which allow you to adjust the operation of the add-on to your liking or needs, are available from the “Pausing information” category in the NVDA settings dialog:
 
-* Announce list items: You will be notified whenever a list item is focused on.
-* Announce tree view items: You will be notified whenever a tree view item is focused on.
-* Announce menu items: Will be notified whenever a menu item is focused.
-* Announce “value” before slider values: When you focus on a slider or scroll bar, announce the “value” information before the value is announced.
-* Announce “shortcut” before object shortcuts: When an object has an associated shortcut key, announce the “shortcut” information before the corresponding shortcut key is announced.
+* Allow the add-on to translate the names of control types and states: If this option is checked, the add-on will use an internal dictionary to translate the names of the types and states of the controls. Otherwise, NVDA's internal translations will be used.
+Note: For now, this option only has a major impact on Portuguese languages. In English, there are no significant differences.
+* Message length: This group of radio buttons controls the amount of information to be spoken.
+    * Short: Only essential NVDA navigation information will be spoken.
+    * Medium: In addition to NVDA's essential navigation information, some extra information will be added. For example, when an object has a shortcut key associated with it, you will hear the information "shortcut" before the shortcut key is announced. You will also hear the "value" information before announcing the value of the sliders and scroll bars.
+    * Long: The add-on will add another set of information on top of the above. When you navigate through the items in a list, tree view or menus, you will hear the corresponding information according to the type of item. The add-on will also warn you whenever a window is activated. This is the default setting.
 
 ## Known issues
 
@@ -46,6 +47,7 @@ However, the following configuration options, which allow you to adjust the oper
     * This fault only occurs the first time you deselect a checkbox, deactivate a toggle button or deselect a list item with the Spacebar or Control+Spacebar.
     * To be sure, you can use the NVDA+Tab shortcut to have the information repeated by NVDA. In this case, the status will be announced correctly.
 * In some types of menus, such as those in Thunderbird, the reading is a little strange. The information “submenu” is announced several times, even when it is not necessary.
+* The announcement of active windows means that when you focus on any part of the taskbar, the first item is not announced. This also applies to the task switcher, accessible with Alt+Tab.
 
 ## Future Development
 
@@ -54,6 +56,12 @@ This add-on was created as a prototype. When the DeltaTalk synthesizer add-on fo
 Special thanks to Chat GPT for his exhaustive collaboration in the development of this prototype, and also to Claude for his help with the additional tweaks that greatly improved the functionality.
 
 ## Change history
+
+### Version 1.2
+
+* Private test version, initially released as 1.1 and later updated to 1.2.
+* A new configuration option has been created that allows you to choose whether or not the add-on should translate the names of the types and states of the controls.
+* A logic of message extension levels has been implemented - long, medium and short. At the long level (default), all possible information will be spoken. At the medium level, some information will be suppressed and at the short level, only the essential information will be spoken.
 
 ### Version 1.1
 

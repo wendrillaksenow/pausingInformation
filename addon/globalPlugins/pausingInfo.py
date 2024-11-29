@@ -118,11 +118,8 @@ IGNORED_STATES = {
 
 # Configuration customization options
 confspec = {
-	"announceListItems": "boolean(default=True)",
-	"announceTreeViewItems": "boolean(default=True)",
-	"announceMenuItems": "boolean(default=True)",
-	"announceValuePrefix": "boolean(default=True)",
-	"announceShortcutPrefix": "boolean(default=True)",
+	"useCustomTranslations": "boolean(default=True)",
+	"messageExtension": "integer(min=0,max=2,default=2)",
 }
 
 config.conf.spec["PausingInfo"] = confspec
@@ -136,31 +133,33 @@ class PausingInfoSettingsPanel(gui.settingsDialogs.SettingsPanel):
 		sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 		
 		# Translators: The label for a checkbox in the settings panel.
-		self.announceListItems = sHelper.addItem(wx.CheckBox(self, label=_("Announce list items")))
-		self.announceListItems.SetValue(config.conf["PausingInfo"]["announceListItems"])
+		self.useCustomTranslations = sHelper.addItem(wx.CheckBox(self, label=_("&Allow the add-on to translate the names of control types and states")))
+		self.useCustomTranslations.SetValue(config.conf["PausingInfo"]["useCustomTranslations"])
 		
-		# Translators: The label for a checkbox in the settings panel.
-		self.announceTreeViewItems = sHelper.addItem(wx.CheckBox(self, label=_("Announce tree view items")))
-		self.announceTreeViewItems.SetValue(config.conf["PausingInfo"]["announceTreeViewItems"])
+		# Translators: The label for a radio button group in the settings panel.
+		messageExtensionGroupLabel = _("Message Extension")
+		messageExtensionGroup = gui.guiHelper.BoxSizerHelper(self, sizer=sHelper.addItem(wx.StaticBoxSizer(wx.VERTICAL, self, label=messageExtensionGroupLabel)))
 		
-		# Translators: The label for a checkbox in the settings panel.
-		self.announceMenuItems = sHelper.addItem(wx.CheckBox(self, label=_("Announce menu items")))
-		self.announceMenuItems.SetValue(config.conf["PausingInfo"]["announceMenuItems"])
+		# Translators: The label for a radio button option in the settings panel.
+		self.messageExtensionShort = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Short"), style=wx.RB_GROUP))
+		self.messageExtensionShort.SetValue(config.conf["PausingInfo"]["messageExtension"] == 0)
 		
-		# Translators: The label for a checkbox in the settings panel.
-		self.announceValuePrefix = sHelper.addItem(wx.CheckBox(self, label=_('Announce "value" before slider values')))
-		self.announceValuePrefix.SetValue(config.conf["PausingInfo"]["announceValuePrefix"])
+		# Translators: The label for a radio button option in the settings panel.
+		self.messageExtensionMedium = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Medium")))
+		self.messageExtensionMedium.SetValue(config.conf["PausingInfo"]["messageExtension"] == 1)
 		
-		# Translators: The label for a checkbox in the settings panel.
-		self.announceShortcutPrefix = sHelper.addItem(wx.CheckBox(self, label=_('Announce "shortcut" before object shortcuts')))
-		self.announceShortcutPrefix.SetValue(config.conf["PausingInfo"]["announceShortcutPrefix"])
+		# Translators: The label for a radio button option in the settings panel.
+		self.messageExtensionLong = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Long")))
+		self.messageExtensionLong.SetValue(config.conf["PausingInfo"]["messageExtension"] == 2)
 
 	def onSave(self):
-		config.conf["PausingInfo"]["announceListItems"] = self.announceListItems.GetValue()
-		config.conf["PausingInfo"]["announceTreeViewItems"] = self.announceTreeViewItems.GetValue()
-		config.conf["PausingInfo"]["announceMenuItems"] = self.announceMenuItems.GetValue()
-		config.conf["PausingInfo"]["announceValuePrefix"] = self.announceValuePrefix.GetValue()
-		config.conf["PausingInfo"]["announceShortcutPrefix"] = self.announceShortcutPrefix.GetValue()
+		config.conf["PausingInfo"]["useCustomTranslations"] = self.useCustomTranslations.GetValue()
+		if self.messageExtensionShort.GetValue():
+			config.conf["PausingInfo"]["messageExtension"] = 0
+		elif self.messageExtensionMedium.GetValue():
+			config.conf["PausingInfo"]["messageExtension"] = 1
+		elif self.messageExtensionLong.GetValue():
+			config.conf["PausingInfo"]["messageExtension"] = 2
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def __init__(self):
@@ -168,13 +167,46 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.originalSpeakObject = speech.speakObject
 		speech.speakObject = self.customSpeakObject
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(PausingInfoSettingsPanel)
+		self.last_announced_window = None
+		self.in_task_switcher = False
+		self.skip_next_speak = False
 
 	def terminate(self):
 		speech.speakObject = self.originalSpeakObject
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(PausingInfoSettingsPanel)
 		super(GlobalPlugin, self).terminate()
 
+	# Active window warning
+	def event_foreground(self, obj, nextHandler):
+		if config.conf["PausingInfo"]["messageExtension"] == 2:  # Message extension=Long
+			if obj.role in [controlTypes.Role.PANE, controlTypes.Role.WINDOW] and obj.windowClassName == "TaskSwitcherWnd":
+				if not self.in_task_switcher:
+					# Avoid the repeated announcement of the last active window when switching tasks
+					self.in_task_switcher = True
+					nextHandler
+			elif obj.role in [controlTypes.Role.DIALOG, controlTypes.Role.PANE, controlTypes.Role.WINDOW]:
+				if obj.name != self.last_announced_window and not self.in_task_switcher:
+					# Translators: Announced when any window or dialog is activated, including the Desktop
+					message = _("Window activated: {name}").format(name=obj.name if obj.name != "Program Manager" else _("Desktop - list"))
+					if obj.description:
+						message += f" - {obj.description}"
+					nextHandler()
+					ui.message(message)
+					self.last_announced_window = obj.name
+					self.skip_next_speak = True
+				self.in_task_switcher = False
+
+	# nextHandler() remains commented out to avoid problems with the announcement
+
 	def customSpeakObject(self, obj, *args, **kwargs):
+		if self.in_task_switcher:
+			# Suppress the announcement of the currently active window during task switching
+			return
+
+		if self.skip_next_speak:
+			self.skip_next_speak = False
+			return
+
 		try:
 			if obj.role in IGNORED_CONTROL_TYPES:
 				self.originalSpeakObject(obj, *args, **kwargs)
@@ -184,23 +216,24 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 			# Object name
 			if obj.name:
+				# Ignore the list name "Desktop" if the window is "Program Manager"
+				if obj.name and not (obj.role == controlTypes.Role.LIST and obj.parent and obj.parent.name == "Program Manager"):
 					description_parts.append(obj.name)
 
-			# Processing combo boxes and shortcut key fields
+			# Processing the combo boxes and hotkey fields
 			if obj.role in [controlTypes.Role.COMBOBOX, controlTypes.Role.HOTKEYFIELD]:
 				if obj.value:
 					description_parts.append(obj.value)
 
 			# Type of control
-			control_type = CONTROL_TYPE_NAMES.get(obj.role)
+			control_type = None
+			if config.conf["PausingInfo"]["useCustomTranslations"]:
+				control_type = CONTROL_TYPE_NAMES.get(obj.role)
+			if control_type is None:
+				control_type = controlTypes.roleLabels.get(obj.role)
 			if control_type:
-				if obj.role == controlTypes.Role.LISTITEM and not config.conf["PausingInfo"]["announceListItems"]:
-					control_type = " "
-				elif obj.role == controlTypes.Role.TREEVIEWITEM and not config.conf["PausingInfo"]["announceTreeViewItems"]:
-					control_type = " "
-				elif obj.role == controlTypes.Role.MENUITEM and not config.conf["PausingInfo"]["announceMenuItems"]:
-					control_type = " "
-				description_parts.append(control_type)
+				if config.conf["PausingInfo"]["messageExtension"] == 2 or obj.role not in [controlTypes.Role.LISTITEM, controlTypes.Role.TREEVIEWITEM, controlTypes.Role.MENUITEM]:
+					description_parts.append(control_type)
 
 			# Read the description of certain objects, where applicable
 			if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.LISTITEM, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
@@ -210,8 +243,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# Processing sliders and scroll bars
 			if obj.role in [controlTypes.Role.SCROLLBAR, controlTypes.Role.SLIDER]:
 				if obj.value:
-					if config.conf["PausingInfo"]["announceValuePrefix"]:
-						# Translators: Announced before a slider value when the "announce value" option is enabled.
+					if config.conf["PausingInfo"]["messageExtension"] > 0:
+						# Translators: Announced before a slider value when the message extension is medium or higher
 						description_parts.append(_("Value: {value}").format(value=obj.value))
 					else:
 						description_parts.append(str(obj.value))
@@ -243,13 +276,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if relevant_state:
 				description_parts.append(relevant_state)
 			else:
-				relevant_state = [
-					STATE_NAMES.get(state) 
-					for state in obj.states 
-					if state in STATE_NAMES 
-					and state not in IGNORED_STATES
-					and (state != controlTypes.State.READONLY or is_read_only_relevant(obj))
-				]
+				if config.conf["PausingInfo"]["useCustomTranslations"]:
+					relevant_state = [
+						STATE_NAMES.get(state) 
+						for state in obj.states 
+						if state in STATE_NAMES 
+						and state not in IGNORED_STATES
+						and (state != controlTypes.State.READONLY or is_read_only_relevant(obj))
+					]
+				else:
+					relevant_state = [
+						controlTypes.stateLabels.get(state) 
+						for state in obj.states 
+						if state in controlTypes.stateLabels 
+						and state not in IGNORED_STATES
+						and (state != controlTypes.State.READONLY or is_read_only_relevant(obj))
+					]
 				description_parts.extend(filter(None, relevant_state))
 
 			# Processing the index and the level of items in the tree view, in lists and in other objects, where applicable
@@ -267,15 +309,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 			# Announcement of shortcut keys
 			if hasattr(obj, 'keyboardShortcut') and obj.keyboardShortcut:
-				if config.conf["PausingInfo"]["announceShortcutPrefix"]:
-					# Translators: Announced before a shortcut when the "announce shortcut" option is enabled.
+				if config.conf["PausingInfo"]["messageExtension"] > 0:
+					# Translators: Announced before the shortcut key of an object when the message extension is medium or higher
 					description_parts.append(_("Shortcut: {shortcut}").format(shortcut=obj.keyboardShortcut))
 				else:
 					description_parts.append(str(obj.keyboardShortcut))
 
 			# Finalize and announce the description
 			final_description = " - ".join(filter(None, description_parts))
-
 			if final_description:
 				ui.message(final_description)
 
@@ -297,21 +338,34 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		except Exception as e:
 			self.originalSpeakObject(obj, *args, **kwargs)
+
 	# Processing negative states
 	def get_relevant_negative_state(self, obj):
-		if obj.role == controlTypes.Role.CHECKBOX:
-			return NEGATIVE_STATE_NAMES[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
-		elif obj.role == controlTypes.Role.RADIOBUTTON:
-			return NEGATIVE_STATE_NAMES[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
-		elif obj.role == controlTypes.Role.TOGGLEBUTTON:
-			return NEGATIVE_STATE_NAMES[controlTypes.State.PRESSED] if controlTypes.State.PRESSED not in obj.states else None
-		elif obj.role == controlTypes.Role.SWITCH:
-			return NEGATIVE_STATE_NAMES[controlTypes.State.ON] if controlTypes.State.ON not in obj.states else None
-		elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
-			return NEGATIVE_STATE_NAMES[controlTypes.State.SELECTED] if controlTypes.State.SELECTED not in obj.states else None
+		if config.conf["PausingInfo"]["useCustomTranslations"]:
+			if obj.role == controlTypes.Role.CHECKBOX:
+				return NEGATIVE_STATE_NAMES[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
+			elif obj.role == controlTypes.Role.RADIOBUTTON:
+				return NEGATIVE_STATE_NAMES[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
+			elif obj.role == controlTypes.Role.TOGGLEBUTTON:
+				return NEGATIVE_STATE_NAMES[controlTypes.State.PRESSED] if controlTypes.State.PRESSED not in obj.states else None
+			elif obj.role == controlTypes.Role.SWITCH:
+				return NEGATIVE_STATE_NAMES[controlTypes.State.ON] if controlTypes.State.ON not in obj.states else None
+			elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
+				return NEGATIVE_STATE_NAMES[controlTypes.State.SELECTED] if controlTypes.State.SELECTED not in obj.states else None
+		else:
+			if obj.role == controlTypes.Role.CHECKBOX:
+				return controlTypes.negativeStateLabels[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
+			elif obj.role == controlTypes.Role.RADIOBUTTON:
+				return controlTypes.negativeStateLabels[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
+			elif obj.role == controlTypes.Role.TOGGLEBUTTON:
+				return controlTypes.negativeStateLabels[controlTypes.State.PRESSED] if controlTypes.State.PRESSED not in obj.states else None
+			elif obj.role == controlTypes.Role.SWITCH:
+				return controlTypes.negativeStateLabels[controlTypes.State.ON] if controlTypes.State.ON not in obj.states else None
+			elif obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
+				return controlTypes.negativeStateLabels[controlTypes.State.SELECTED] if controlTypes.State.SELECTED not in obj.states else None
 		return None
 
-		# Call the personalized reading method gaining focus
+		# Call up the personalized reading method by gaining focus
 	def customEventGainFocus(self, obj, nextHandler):
 		self.customSpeakObject(obj)
 		# We don't call nextHandler() here to avoid duplicating the announcement
