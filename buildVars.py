@@ -25,7 +25,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description": _("""Inserts pauses when reading control information. Adds pauses (hyphens) between the name of a control and its additional information."""),
 	# version
-	"addon_version": "1.0",
+	"addon_version": "1.1",
 	# Author(s)
 	"addon_author": "Wendrill Aksenow Brandão <wendrillaksenow@gmail.com>",
 	# URL for the add-on documentation support

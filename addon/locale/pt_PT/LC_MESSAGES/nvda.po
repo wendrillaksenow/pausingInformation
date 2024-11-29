@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'pausingInfo' '1.0'\n"
+"Project-Id-Version: 'pausingInfo' '1.1'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2024-11-06 00:15-0300\n"
-"PO-Revision-Date: 2024-11-06 00:16-0300\n"
+"POT-Creation-Date: 2024-11-07 22:46-0300\n"
+"PO-Revision-Date: 2024-11-07 23:07-0300\n"
 "Last-Translator: \n"
 "Language-Team: Wendrill Aksenow Brandão <wendrillaksenow@gmail.com>\n"
 "Language: pt_PT\n"
@@ -17,318 +17,350 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4\n"
 
-#: addon\globalPlugins\pausingInfo.py:15
+#: addon\globalPlugins\pausingInfo.py:18
 msgid "alert"
 msgstr "alerta"
 
-#: addon\globalPlugins\pausingInfo.py:16
+#: addon\globalPlugins\pausingInfo.py:19
 msgid "button"
 msgstr "botão"
 
-#: addon\globalPlugins\pausingInfo.py:17
+#: addon\globalPlugins\pausingInfo.py:20
 msgid "check box"
 msgstr "caixa de verificação"
 
-#: addon\globalPlugins\pausingInfo.py:18
+#: addon\globalPlugins\pausingInfo.py:21
 msgid "check menu item"
 msgstr "item de menu com caixa de verificação"
 
-#: addon\globalPlugins\pausingInfo.py:19
+#: addon\globalPlugins\pausingInfo.py:22
 msgid "combo box"
 msgstr "caixa combinada"
 
-#: addon\globalPlugins\pausingInfo.py:20
+#: addon\globalPlugins\pausingInfo.py:23
 msgid "dialog"
 msgstr "janela"
 
-#: addon\globalPlugins\pausingInfo.py:21
+#: addon\globalPlugins\pausingInfo.py:24
 msgid "document"
 msgstr "documento"
 
-#: addon\globalPlugins\pausingInfo.py:22
+#: addon\globalPlugins\pausingInfo.py:25
 msgid "edit"
 msgstr "caixa de edição"
 
-#: addon\globalPlugins\pausingInfo.py:23
+#: addon\globalPlugins\pausingInfo.py:26
 msgid "frame"
 msgstr "frame"
 
-#: addon\globalPlugins\pausingInfo.py:24
+#: addon\globalPlugins\pausingInfo.py:27
 msgid "graphic"
 msgstr "gráfico"
 
-#: addon\globalPlugins\pausingInfo.py:25
+#: addon\globalPlugins\pausingInfo.py:28
 msgid "grouping"
 msgstr "agrupamento"
 
-#: addon\globalPlugins\pausingInfo.py:26
+#: addon\globalPlugins\pausingInfo.py:29
 msgid "heading"
 msgstr "cabeçalho"
 
-#: addon\globalPlugins\pausingInfo.py:27
+#: addon\globalPlugins\pausingInfo.py:30
 msgid "hot key field"
 msgstr "campo de tecla de atalho"
 
-#: addon\globalPlugins\pausingInfo.py:28
+#: addon\globalPlugins\pausingInfo.py:31
 msgid "icon"
 msgstr "ícone"
 
-#: addon\globalPlugins\pausingInfo.py:29
+#: addon\globalPlugins\pausingInfo.py:32
 msgid "indicator"
 msgstr "indicador"
 
-#: addon\globalPlugins\pausingInfo.py:30
+#: addon\globalPlugins\pausingInfo.py:33
 msgid "link"
 msgstr "link"
 
-#: addon\globalPlugins\pausingInfo.py:31
+#: addon\globalPlugins\pausingInfo.py:34
 msgid "list"
 msgstr "lista"
 
-#: addon\globalPlugins\pausingInfo.py:32
+#: addon\globalPlugins\pausingInfo.py:35
 msgid "list item"
 msgstr "item de lista"
 
-#: addon\globalPlugins\pausingInfo.py:33
+#: addon\globalPlugins\pausingInfo.py:36
 msgid "menu bar"
 msgstr "barra de menu"
 
-#: addon\globalPlugins\pausingInfo.py:34
+#: addon\globalPlugins\pausingInfo.py:37
 msgid "menu button"
 msgstr "botão de menu"
 
-#: addon\globalPlugins\pausingInfo.py:35
+#: addon\globalPlugins\pausingInfo.py:38
 msgid "menu item"
 msgstr "item de menu"
 
-#: addon\globalPlugins\pausingInfo.py:36
+#: addon\globalPlugins\pausingInfo.py:39
 msgid "menu"
 msgstr "menu"
 
-#: addon\globalPlugins\pausingInfo.py:37
+#: addon\globalPlugins\pausingInfo.py:40
 msgid "progress bar"
 msgstr "barra de evolução"
 
-#: addon\globalPlugins\pausingInfo.py:38
+#: addon\globalPlugins\pausingInfo.py:41
 msgid "property page"
 msgstr "página de propriedades"
 
-#: addon\globalPlugins\pausingInfo.py:39
+#: addon\globalPlugins\pausingInfo.py:42
 msgid "radio button"
 msgstr "botão de rádio"
 
-#: addon\globalPlugins\pausingInfo.py:40
+#: addon\globalPlugins\pausingInfo.py:43
 msgid "radio menu item"
 msgstr "item de menu com botão de rádio"
 
-#: addon\globalPlugins\pausingInfo.py:41
+#: addon\globalPlugins\pausingInfo.py:44
 msgid "scroll bar"
 msgstr "barra de deslocamento"
 
-#: addon\globalPlugins\pausingInfo.py:42
+#: addon\globalPlugins\pausingInfo.py:45
 msgid "separator"
 msgstr "separador"
 
-#: addon\globalPlugins\pausingInfo.py:43
+#: addon\globalPlugins\pausingInfo.py:46
 msgid "slider"
 msgstr "controlo de deslize"
 
-#: addon\globalPlugins\pausingInfo.py:44
+#: addon\globalPlugins\pausingInfo.py:47
 msgid "split button"
 msgstr "botão separador"
 
-#: addon\globalPlugins\pausingInfo.py:45
+#: addon\globalPlugins\pausingInfo.py:48
 msgid "text"
 msgstr "texto estático"
 
-#: addon\globalPlugins\pausingInfo.py:46
+#: addon\globalPlugins\pausingInfo.py:49
 msgid "status bar"
 msgstr "barra de estado"
 
-#: addon\globalPlugins\pausingInfo.py:47
+#: addon\globalPlugins\pausingInfo.py:50
 msgid "switch"
 msgstr "alternador"
 
-#: addon\globalPlugins\pausingInfo.py:48
+#: addon\globalPlugins\pausingInfo.py:51
 msgid "tab"
 msgstr "separador de página"
 
-#: addon\globalPlugins\pausingInfo.py:49
+#: addon\globalPlugins\pausingInfo.py:52
 msgid "tab control"
 msgstr "controlo do separador"
 
-#: addon\globalPlugins\pausingInfo.py:50
+#: addon\globalPlugins\pausingInfo.py:53
 msgid "table"
 msgstr "tabela"
 
-#: addon\globalPlugins\pausingInfo.py:51
+#: addon\globalPlugins\pausingInfo.py:54
 msgid "colunn header"
 msgstr "título de coluna"
 
-#: addon\globalPlugins\pausingInfo.py:52
+#: addon\globalPlugins\pausingInfo.py:55
 msgid "toggle button"
 msgstr "botão de comutação"
 
-#: addon\globalPlugins\pausingInfo.py:53
+#: addon\globalPlugins\pausingInfo.py:56
 msgid "tool bar"
 msgstr "barra de ferramentas"
 
-#: addon\globalPlugins\pausingInfo.py:54
+#: addon\globalPlugins\pausingInfo.py:57
 msgid "tool tip"
 msgstr "sugestão"
 
-#: addon\globalPlugins\pausingInfo.py:55
+#: addon\globalPlugins\pausingInfo.py:58
 msgid "tree view"
 msgstr "vista em árvore"
 
-#: addon\globalPlugins\pausingInfo.py:56
+#: addon\globalPlugins\pausingInfo.py:59
 msgid "tree view item"
 msgstr "item da vista em árvore"
 
-#: addon\globalPlugins\pausingInfo.py:57
+#: addon\globalPlugins\pausingInfo.py:60
 msgid "window"
 msgstr "janela"
 
-#: addon\globalPlugins\pausingInfo.py:63
+#: addon\globalPlugins\pausingInfo.py:66
 msgid "has auto complete"
 msgstr "tem auto-completação"
 
-#: addon\globalPlugins\pausingInfo.py:64
+#: addon\globalPlugins\pausingInfo.py:67
 msgid "busy"
 msgstr "ocupado"
 
-#: addon\globalPlugins\pausingInfo.py:65
+#: addon\globalPlugins\pausingInfo.py:68
 msgid "checked"
 msgstr "marcado"
 
-#: addon\globalPlugins\pausingInfo.py:66
+#: addon\globalPlugins\pausingInfo.py:69
 msgid "clickable"
 msgstr "clicável"
 
-#: addon\globalPlugins\pausingInfo.py:67
+#: addon\globalPlugins\pausingInfo.py:70
 msgid "collapsed"
 msgstr "recolhido"
 
-#: addon\globalPlugins\pausingInfo.py:68
+#: addon\globalPlugins\pausingInfo.py:71
 msgid "expanded"
 msgstr "expandido"
 
-#: addon\globalPlugins\pausingInfo.py:69
+#: addon\globalPlugins\pausingInfo.py:72
 msgid "half checked"
 msgstr "parcialmente marcado"
 
-#: addon\globalPlugins\pausingInfo.py:70
+#: addon\globalPlugins\pausingInfo.py:73
 msgid "half pressed"
 msgstr "semi pressionado"
 
-#: addon\globalPlugins\pausingInfo.py:71
+#: addon\globalPlugins\pausingInfo.py:74
 msgid "has long description"
 msgstr "tem descrição longa"
 
-#: addon\globalPlugins\pausingInfo.py:72
+#: addon\globalPlugins\pausingInfo.py:75
 msgid "subMenu"
-msgstr "comtém submenus"
+msgstr "contém submenus"
 
-#: addon\globalPlugins\pausingInfo.py:73
+#: addon\globalPlugins\pausingInfo.py:76
 msgid "invalid entry"
 msgstr "entrada inválida"
 
-#: addon\globalPlugins\pausingInfo.py:74
+#: addon\globalPlugins\pausingInfo.py:77
 msgid "multi line"
 msgstr "multilinha"
 
-#: addon\globalPlugins\pausingInfo.py:75
+#: addon\globalPlugins\pausingInfo.py:78
 msgid "on"
 msgstr "ligado"
 
-#: addon\globalPlugins\pausingInfo.py:76
+#: addon\globalPlugins\pausingInfo.py:79
 msgid "pressed"
 msgstr "pressionado"
 
-#: addon\globalPlugins\pausingInfo.py:77
+#: addon\globalPlugins\pausingInfo.py:80
 msgid "protected"
 msgstr "protegida"
 
-#: addon\globalPlugins\pausingInfo.py:78
+#: addon\globalPlugins\pausingInfo.py:81
 msgid "read only"
 msgstr "só de leitura"
 
-#: addon\globalPlugins\pausingInfo.py:79
+#: addon\globalPlugins\pausingInfo.py:82
 msgid "required"
 msgstr "requerido"
 
-#: addon\globalPlugins\pausingInfo.py:80
+#: addon\globalPlugins\pausingInfo.py:83
 msgid "sorted"
 msgstr "ordenado"
 
-#: addon\globalPlugins\pausingInfo.py:81
+#: addon\globalPlugins\pausingInfo.py:84
 msgid "sorted ascending"
 msgstr "ordenado por ordem crescente"
 
-#: addon\globalPlugins\pausingInfo.py:82
+#: addon\globalPlugins\pausingInfo.py:85
 msgid "sorted descending"
 msgstr "ordenado por ordem decrescente"
 
-#: addon\globalPlugins\pausingInfo.py:83
+#: addon\globalPlugins\pausingInfo.py:86
 msgid "unavailable"
 msgstr "indisponível"
 
-#: addon\globalPlugins\pausingInfo.py:84
+#: addon\globalPlugins\pausingInfo.py:87
 msgid "visited"
 msgstr "visitado"
 
-#: addon\globalPlugins\pausingInfo.py:90
+#: addon\globalPlugins\pausingInfo.py:93
 msgid "not checked"
 msgstr "desmarcado"
 
-#: addon\globalPlugins\pausingInfo.py:91
+#: addon\globalPlugins\pausingInfo.py:94
 msgid "off"
 msgstr "desligado"
 
-#: addon\globalPlugins\pausingInfo.py:92
+#: addon\globalPlugins\pausingInfo.py:95
 msgid "not pressed"
 msgstr "não pressionado"
 
-#: addon\globalPlugins\pausingInfo.py:93
+#: addon\globalPlugins\pausingInfo.py:96
 msgid "not selected"
 msgstr "não seleccionado"
 
-#. Translators: Announced before a slider value
-#: addon\globalPlugins\pausingInfo.py:157
+#. Translators: The name of the panel in the NVDA settings dialog.
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: addon\globalPlugins\pausingInfo.py:133 buildVars.py:23
+msgid "Pausing Information"
+msgstr "Informação Pausada"
+
+#. Translators: The label for a checkbox in the settings panel.
+#: addon\globalPlugins\pausingInfo.py:139
+msgid "Announce list items"
+msgstr "Anunciar itens de lista"
+
+#. Translators: The label for a checkbox in the settings panel.
+#: addon\globalPlugins\pausingInfo.py:143
+msgid "Announce tree view items"
+msgstr "Anunciar itens de vista em árvore"
+
+#. Translators: The label for a checkbox in the settings panel.
+#: addon\globalPlugins\pausingInfo.py:147
+msgid "Announce menu items"
+msgstr "Anunciar itens de menu"
+
+#. Translators: The label for a checkbox in the settings panel.
+#: addon\globalPlugins\pausingInfo.py:151
+msgid "Announce \"value\" before slider values"
+msgstr "Anunciar “valor” antes dos valores do controlo de deslize"
+
+#. Translators: The label for a checkbox in the settings panel.
+#: addon\globalPlugins\pausingInfo.py:155
+msgid "Announce \"shortcut\" before object shortcuts"
+msgstr "Anunciar \"atalho\" antes dos atalhos de objetos"
+
+#. Translators: Announced before a slider value when the "announce value" option is enabled.
+#: addon\globalPlugins\pausingInfo.py:215
 #, python-brace-format
 msgid "Value: {value}"
 msgstr "Valor: {value}"
 
 #. Translators: Used to announce the index number in lists and other objects
-#: addon\globalPlugins\pausingInfo.py:173
+#: addon\globalPlugins\pausingInfo.py:263
 #, python-brace-format
 msgid "{index} of {total}"
 msgstr "{index} de {total}"
 
 #. Translators: Used to announce the level in the tree view and in other objects
-#: addon\globalPlugins\pausingInfo.py:176
+#: addon\globalPlugins\pausingInfo.py:266
 #, python-brace-format
-msgid "Level {level}"
+msgid "Level{level}"
 msgstr "Nível {level}"
 
-#. Translators: Announced before the shortcut key of an object
-#: addon\globalPlugins\pausingInfo.py:181
+#. Translators: Announced before a shortcut when the "announce shortcut" option is enabled.
+#: addon\globalPlugins\pausingInfo.py:272
 #, python-brace-format
 msgid "Shortcut: {shortcut}"
 msgstr "Atalho: {shortcut}"
 
+#. Translators: Announced when the selected text is longer than 512 characters
+#: addon\globalPlugins\pausingInfo.py:291
+#, python-brace-format
+msgid "{chars} characters selected"
+msgstr "{chars} caracteres seleccionados"
+
 #. Translators: Announced before reading the selected text
-#: addon\globalPlugins\pausingInfo.py:197
+#: addon\globalPlugins\pausingInfo.py:294
 #, python-brace-format
 msgid "Selected {text}"
 msgstr "Seleccionado {text}"
-
-#. Add-on summary, usually the user visible name of the addon.
-#. Translators: Summary for this add-on
-#. to be shown on installation and add-on information found in Add-ons Manager.
-#: buildVars.py:23
-msgid "Pausing Information"
-msgstr "Informação Pausada"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager

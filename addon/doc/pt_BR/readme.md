@@ -1,8 +1,19 @@
-# Complemento "Informações pausadas" para NVDA
+# Complemento "Informação pausada" para NVDA
 
 ## Descrição
 
-O complemento "Informações pausadas" para NVDA é uma extensão que fornece uma leitura mais detalhada e pausada das informações de controle e estado quando o foco muda entre os elementos da interface. Essa funcionalidade foi inspirada no leitor de tela brasileiro “Virtual Vision”, conhecido por sua forma lenta de anunciar informações, melhorando a compreensão do usuário.
+O complemento "Informação pausada" para NVDA é uma extensão que fornece uma leitura mais detalhada e pausada das informações de controle e estado quando o foco muda entre os elementos da interface.
+
+Essa funcionalidade foi inspirada no leitor de tela brasileiro “Virtual Vision”, conhecido por sua forma lenta de anunciar informações, melhorando a compreensão do usuário.
+
+Este complemento geralmente deveria ser usado com o [sintetizador DeltaTalk](https://cld.pt/dl/download/2fbe0f2a-3a24-41f3-96f5-9ff9a5a88b07/DeltaTalk%20TTS.exe?dl=true) para garantir uma experiência de leitura completa semelhante ao Virtual Vision, mas é perfeitamente compatível com qualquer outro sintetizador usado pelo NVDA.
+
+## Nota importante
+A leitura pausada é baseada apenas no nível de pontuação. Hífens são adicionados para pausar a leitura das informações. Se o nível de pontuação for definido acima de "alguns", os hífens serão lidos em voz alta.
+
+Da mesma forma, se os símbolos (especificamente o hífen) não forem ajustados corretamente na caixa de diálogo de pronúncia de pontuação/símbolos, as pausas poderão não ocorrer.
+
+Para garantir que as pausas funcionem conforme o esperado, vá para a caixa de diálogo de pronúncia de pontuação/símbolos e certifique-se de que o hífen esteja configurado para ser enviado ao sintetizador quando estiver abaixo do nível do símbolo.
 
 ## Características
 
@@ -11,17 +22,29 @@ O complemento "Informações pausadas" para NVDA é uma extensão que fornece um
 
 ## Uso
 
-Após a instalação, o complemento funciona automaticamente, proporcionando uma leitura mais detalhada e pausada das informações dos tipos e status dos controles. Nenhuma configuração adicional é necessária.
+Após a instalação, o complemento funciona automaticamente, permitindo uma leitura mais detalhada e pausada das informações sobre os tipos e estados dos controles. Nenhuma configuração adicional é necessária.
 
-## Notas
+### Opções de configuração
 
-* A leitura do texto selecionado não é totalmente funcional e pode falhar em alguns casos. No entanto, ajustes foram feitos para melhorar a operação.
-* Em alguns casos, o status do controle não é anunciado, por exemplo, quando uma caixa de seleção não está marcada ou um botão de alternância não está pressionado. Mais alguns ajustes serão feitos para tentar corrigir esse problema.
+Conforme mencionado, nenhuma configuração adicional é necessária ao usar o complemento. As configurações padrão fornecem uma experiência de leitura de tela e navegação no Windows muito semelhante à do Virtual Vision, especialmente quando este complemento é usado com o sintetizador DeltaTalk.
+
+No entanto, as seguintes opções de configuração, que permitem ajustar a operação do complemento ao seu gosto ou necessidades, estão disponíveis na categoria "Informação pausada" na caixa de diálogo de configurações do NVDA:
+
+* Anunciar itens de lista: Avisa quando um item de lista for focalizado.
+* Anunciar itens da lista hierárquica: Avisa quando um item da lista hierárquica for focalizado.
+* Anunciar itens de menu: Avisa quando um item de menu for focalizado.
+* Anunciar "valor" antes dos valores do controle deslizante: ao focar em um controle deslizante ou barra de rolagem, anuncia a informação "valor" antes que o valor seja anunciado.
+* Anunciar "atalho" antes dos atalhos de objetos: Quando um objeto possui uma tecla de atalho associada, anuncia a informação "atalho" antes que a tecla de atalho correspondente seja anunciada.
+
+## Problemas conhecidos
+
 * Nas páginas da web, o comportamento do complemento pode ser imprevisível. Por enquanto, a leitura pausada nem sempre funciona conforme o esperado e os objetos são lidos repetidamente.
-* A leitura pausada é baseada apenas no nível de pontuação, pois hifens são adicionados para pausar entre as informações de leitura. Se o grau de símbolos for definido acima de "pouco", os hifens serão lidos em voz alta.
-* Da mesma forma, se os símbolos (especificamente o hífen) não forem ajustados corretamente na caixa de diálogo de pronúncia de pontuação / símbolos, as pausas poderão não ocorrer.
-* Para garantir que as pausas funcionem conforme o esperado, vá para a caixa de diálogo de pronúncia da pontuação/símbolos e certifique-se de que o hífen esteja configurado para ser enviado ao sintetizador quando estiver abaixo do nível do símbolo.
-* Para usuários muito avançados: Se você não quiser ouvir as expressões "item de lista", "item da árvore" e "item de menu" ao navegar pelos respectivos itens, basta abrir o código do complemento em "globalPlugins\pausingInfo .py " e modificar as linhas para "ListItem", "TreeViewItem" e "MenuItem", substituindo as frases entre aspas por um espaço, e reiniciar o NVDA após salvar o arquivo. Observe que isso só deve ser feito por usuários muito experientes! Está sendo considerada a possibilidade de implementar uma caixa de diálogo de configurações no futuro, o que permitirá ao usuário personalizar o complemento de acordo com seus gostos ou necessidades.
+* Em alguns casos, o anúncio do estado pode falhar ou estar incorreto.
+    * Quando uma caixa de seleção está marcada, desmarcá-la faz com que o estado “marcado” seja anunciado incorretamente.
+    * Quando um botão de alternância é pressionado ou um item da lista é selecionado, desativar o botão ou desmarcar o item não os anuncia.
+    * Essa falha ocorre apenas na primeira vez que uma caixa de seleção é desmarcada, um botão de alternância  é desativado ou um item da lista  é desmarcado com a Barra de espaço ou Control+Barra de espaço.
+    * Para ter certeza, você pode usar o atalho NVDA+Tab para que a informação seja repetida pelo NVDA. Neste caso, o estado será anunciado corretamente.
+* Em alguns tipos de menus, como os do Thunderbird, a leitura fica um pouco estranha. A informação "submenu" é anunciada diversas vezes, mesmo quando não é necessário.
 
 ## Desenvolvimento Futuro
 
@@ -30,6 +53,15 @@ Este complemento foi criado como um protótipo. Quando o complemento do sintetiz
 Agradecimentos especiais ao Chat GPT pela exaustiva colaboração no desenvolvimento deste protótipo, e também ao Claude pela ajuda nos ajustes adicionais que melhoraram muito o seu funcionamento.
 
 ## Histórico de alterações
+
+### Versão 1.1
+
+* Foi criada uma nova interface para o complemento, com o primeiro conceito de opções de configuração.
+* Corrigido um problema em que a descrição de determinados objetos e o conteúdo de algumas caixas de diálogo não eram lidos.
+* Corrigido um problema em que o valor da barra de progresso não era lido automaticamente.
+* Foi corrigido um erro onde não era possível focar corretamente nos links contidos em mensagens de e-mail e páginas da web.
+* Corrigido um problema com a leitura de células do Excel.
+* Foi criada uma lógica para verificar se o estado somente leitura é relevante para evitar anúncios desnecessários.
 
 ### Versão 1.0
 
