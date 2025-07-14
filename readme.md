@@ -73,7 +73,7 @@ Special thanks also to all the people who tried out this prototype and contribut
 
 ## Change history
 
-### Version 0.5
+### Version 1.5
 
 * The “internal_link” status (which identifies links to the same page) has been added to the list of states to be announced.
 * A few more controls have also been added to the list of control types to be announced.
