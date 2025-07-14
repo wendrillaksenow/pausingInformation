@@ -59,7 +59,7 @@ By setting the message extension level to “Custom”, you can individually adj
     * When a toggle button is pressed or a list item is selected, deactivating the button or deselecting the item does not announce them.
     * This fault only occurs the first time you deselect a checkbox, deactivate a toggle button or deselect a list item with the Spacebar or Control+Spacebar.
     * To be sure, you can use the NVDA+Tab shortcut to have the information repeated by NVDA. In this case, the status will be announced correctly.
-* In some types of menus, such as those in Thunderbird, the reading is a little strange. The information “submenu” is announced several times, even when it is not necessary. In these cases, until a solution to this problem is found, it is recommended to temporarily disable the add-on via the shortcut key when navigating through Thunderbird menus and other similar menus.
+* In some types of menus, such as those in Thunderbird, the reading is a little strange. The informations “submenu” and “unavailable” are announced several times, even when it is not necessary. In these cases, until a solution to this problem is found, it is recommended to temporarily disable the add-on via the shortcut key when navigating through Thunderbird menus and other similar menus.
 * In some types of dialog boxes that do not have an associated title, their content is not automatically read by the add-on.
 * The announcement of active windows, in certain cases, causes this information to be announced incorrectly, for example, when opening a combo box with the Alt+Down Arrow shortcut or when opening a context menu such as the one in Google Chrome.
 
@@ -73,7 +73,7 @@ Special thanks also to all the people who tried out this prototype and contribut
 
 ## Change history
 
-### Version 0.5
+### Version 1.5
 
 * The “internal_link” status (which identifies links to the same page) has been added to the list of states to be announced.
 * A few more controls have also been added to the list of control types to be announced.
