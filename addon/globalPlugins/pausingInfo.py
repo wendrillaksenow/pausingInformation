@@ -22,6 +22,7 @@ CONTROL_TYPE_NAMES = {
 	controlTypes.Role.CHECKBOX: _("check box"),
 	controlTypes.Role.CHECKMENUITEM: _("check menu item"),
 	controlTypes.Role.COMBOBOX: _("combo box"),
+	controlTypes.Role.DATAGRID: _("data grid"),
 	controlTypes.Role.DIALOG: _("dialog"),
 	controlTypes.Role.DOCUMENT: _("document"),
 	controlTypes.Role.EDITABLETEXT: _("edit"),
@@ -54,6 +55,7 @@ CONTROL_TYPE_NAMES = {
 	controlTypes.Role.TABCONTROL: _("tab control"),
 	controlTypes.Role.TABLE: _("table"),
 	controlTypes.Role.TABLECOLUMNHEADER: _("colunn header"),
+	controlTypes.Role.TERMINAL: _("terminal"),
 	controlTypes.Role.TOGGLEBUTTON: _("toggle button"),
 	controlTypes.Role.TOOLBAR: _("tool bar"),
 	controlTypes.Role.TOOLTIP: _("tool tip"),
@@ -62,6 +64,8 @@ CONTROL_TYPE_NAMES = {
 	controlTypes.Role.WINDOW: _("window"),
 	# Add more types as needed
 }
+
+CONTROL_TYPE_NAMES_REVERSED = {value: key for key, value in CONTROL_TYPE_NAMES.items()}
 
 # List of control states to be announced
 STATE_NAMES = {
@@ -75,7 +79,7 @@ STATE_NAMES = {
 	controlTypes.State.HALF_PRESSED: _("half pressed"),
 	controlTypes.State.HASLONGDESC: _("has long description"),
 	controlTypes.State.HASPOPUP: _("subMenu"),
-	# controlTypes.State.INTERNAL_LINK: _("same page"),
+	controlTypes.State.INTERNAL_LINK: _("same page"),
 	controlTypes.State.INVALID_ENTRY: _("invalid entry"),
 	controlTypes.State.MULTILINE: _("multi line"),
 	controlTypes.State.ON: _("on"),
@@ -124,26 +128,30 @@ confspec = {
 	"useCustomTranslations": "boolean(default=True)",
 	"messageExtension": "integer(min=0,max=3,default=2)",
 	"enabled": "boolean(default=True)",
+	"announceActiveWindows": "boolean(default=False)",
+	"announceShortcutPrefix": "boolean(default=False)",
+	"announceValuePrefix": "boolean(default=False)",
+	"enabledControls": "string(default='')"  # Lista como string separada por vírgulas
 }
 
-config.conf.spec["PausingInfo"] = confspec
+config.conf.spec["pausingInfo"] = confspec
 
 # Settings category
-class PausingInfoSettingsPanel(gui.settingsDialogs.SettingsPanel):
+class pausingInfoSettingsPanel(gui.settingsDialogs.SettingsPanel):
 	# Translators: The name of the panel in the NVDA settings dialog.
-	title = _("Pausing Information")
+	title = _("Pausing Info")
 
 	def makeSettings(self, settingsSizer):
 		sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 		
 		# Translators: The label for a checkbox in the settings panel.
 		self.enabledCheckbox = sHelper.addItem(wx.CheckBox(self, label=_("&Enable paused reading of control types and states")))
-		self.enabledCheckbox.SetValue(config.conf["PausingInfo"]["enabled"])
+		self.enabledCheckbox.SetValue(config.conf["pausingInfo"]["enabled"])
 		self.enabledCheckbox.Bind(wx.EVT_CHECKBOX, self.onEnabledCheckbox)
 
 		# Translators: The label for a checkbox in the settings panel.
 		self.useCustomTranslations = sHelper.addItem(wx.CheckBox(self, label=_("&Allow the add-on to translate the names of control types and states")))
-		self.useCustomTranslations.SetValue(config.conf["PausingInfo"]["useCustomTranslations"])
+		self.useCustomTranslations.SetValue(config.conf["pausingInfo"]["useCustomTranslations"])
 		
 		# Translators: The label for a radio button group in the settings panel.
 		messageExtensionGroupLabel = _("Message Extension")
@@ -151,33 +159,33 @@ class PausingInfoSettingsPanel(gui.settingsDialogs.SettingsPanel):
 		
 		# Translators: The label for a radio button option in the settings panel.
 		self.messageExtensionShort = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Short"), style=wx.RB_GROUP))
-		self.messageExtensionShort.SetValue(config.conf["PausingInfo"]["messageExtension"] == 0)
+		self.messageExtensionShort.SetValue(config.conf["pausingInfo"]["messageExtension"] == 0)
 		
 		# Translators: The label for a radio button option in the settings panel.
 		self.messageExtensionMedium = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Medium")))
-		self.messageExtensionMedium.SetValue(config.conf["PausingInfo"]["messageExtension"] == 1)
+		self.messageExtensionMedium.SetValue(config.conf["pausingInfo"]["messageExtension"] == 1)
 		
 		# Translators: The label for a radio button option in the settings panel.
 		self.messageExtensionLong = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Long")))
-		self.messageExtensionLong.SetValue(config.conf["PausingInfo"]["messageExtension"] == 2)
+		self.messageExtensionLong.SetValue(config.conf["pausingInfo"]["messageExtension"] == 2)
 		
 		# Translators: The label for a radio button option in the settings panel.
 		self.messageExtensionCustom = messageExtensionGroup.addItem(wx.RadioButton(self, label=_("&Custom")))
-		self.messageExtensionCustom.SetValue(config.conf["PausingInfo"]["messageExtension"] == 3)
+		self.messageExtensionCustom.SetValue(config.conf["pausingInfo"]["messageExtension"] == 3)
 		
 		# Translators: The label for a button in the settings panel.
 		self.configureButton = wx.Button(self, label=_("Configure..."))
 		sHelper.addItem(self.configureButton) 
 		self.configureButton.Bind(wx.EVT_BUTTON, self.onConfigure) 
 
-		self.configureButton.Enable(config.conf["PausingInfo"]["messageExtension"] == 3)
+		self.configureButton.Enable(config.conf["pausingInfo"]["messageExtension"] == 3)
 
 		self.messageExtensionShort.Bind(wx.EVT_RADIOBUTTON, self.updateConfigureButton)
 		self.messageExtensionMedium.Bind(wx.EVT_RADIOBUTTON, self.updateConfigureButton)
 		self.messageExtensionLong.Bind(wx.EVT_RADIOBUTTON, self.updateConfigureButton)
 		self.messageExtensionCustom.Bind(wx.EVT_RADIOBUTTON, self.updateConfigureButton)
 
-		self.updateControlState(config.conf["PausingInfo"]["enabled"])
+		self.updateControlState(config.conf["pausingInfo"]["enabled"])
 
 	def onEnabledCheckbox(self, event):
 		self.updateControlState(event.IsChecked())
@@ -196,16 +204,16 @@ class PausingInfoSettingsPanel(gui.settingsDialogs.SettingsPanel):
 		dlg.Destroy()
 
 	def onSave(self):
-		config.conf["PausingInfo"]["enabled"] = self.enabledCheckbox.GetValue()
-		config.conf["PausingInfo"]["useCustomTranslations"] = self.useCustomTranslations.GetValue()
+		config.conf["pausingInfo"]["enabled"] = self.enabledCheckbox.GetValue()
+		config.conf["pausingInfo"]["useCustomTranslations"] = self.useCustomTranslations.GetValue()
 		if self.messageExtensionShort.GetValue():
-			config.conf["PausingInfo"]["messageExtension"] = 0
+			config.conf["pausingInfo"]["messageExtension"] = 0
 		elif self.messageExtensionMedium.GetValue():
-			config.conf["PausingInfo"]["messageExtension"] = 1
+			config.conf["pausingInfo"]["messageExtension"] = 1
 		elif self.messageExtensionLong.GetValue():
-			config.conf["PausingInfo"]["messageExtension"] = 2
+			config.conf["pausingInfo"]["messageExtension"] = 2
 		elif self.messageExtensionCustom.GetValue():
-			config.conf["PausingInfo"]["messageExtension"] = 3
+			config.conf["pausingInfo"]["messageExtension"] = 3
 
 # Settings dialog for the custom level
 class ConfigureDialog(wx.Dialog):
@@ -213,7 +221,6 @@ class ConfigureDialog(wx.Dialog):
 		# Translators: The name of the custom level settings dialog.
 		super(ConfigureDialog, self).__init__(parent, title=_("Settings for the custom message extension level"))
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
-		
 		sHelper = gui.guiHelper.BoxSizerHelper(self, orientation=wx.VERTICAL)
 
 		# Translators: The instruction text for the custom level settings dialog.
@@ -223,78 +230,82 @@ class ConfigureDialog(wx.Dialog):
 		controlsGroupSizer = wx.StaticBoxSizer(wx.VERTICAL, self, label=_("Types of control"))
 		controlsGroupHelper = gui.guiHelper.BoxSizerHelper(self, sizer=controlsGroupSizer)
 
-		controlChoices = list(CONTROL_TYPE_NAMES.values())
+		# Use enums as fixed values, dynamically translated for display
+		self.controlChoices = list(CONTROL_TYPE_NAMES.keys())  # List of enums Role
+
+		controlDisplayNames = [CONTROL_TYPE_NAMES[role] for role in self.controlChoices]  # Translated names
+
+
 		self.controlsList = controlsGroupHelper.addLabeledControl(
 			# Translators: The label for a custom check list box in the custom level settings dialog.
 			_("Select the controls to be announced:"),
 			nvdaControls.CustomCheckListBox,
-			choices=controlChoices
+			choices=controlDisplayNames
 		)
 
-		enabledControls = config.conf["PausingInfo"].get("enabledControls", [])
+		# Load the controls activated from the configuration as integers
+		enabledControlsStr = config.conf["pausingInfo"].get("enabledControls", "")
+		enabledControls = [int(role) for role in enabledControlsStr.split(",")] if enabledControlsStr else []
+
+		# Map the integer values to the indexes in controlChoices
 		self.controlsList.CheckedItems = [
-			index for index, control in enumerate(controlChoices) if control in enabledControls
+			i for i, role in enumerate(self.controlChoices) if role.value in enabledControls
 		]
 
 		sHelper.addItem(controlsGroupSizer, flag=wx.EXPAND)
 
 		# Translators: The label for a group of controls in the custom level settings dialog.
-		messagesGroupSizer = wx.StaticBoxSizer(wx.VERTICAL, self, label=_("Other aditional messages"))
+		messagesGroupSizer = wx.StaticBoxSizer(wx.VERTICAL, self, label=_("Other additional messages"))
 		messagesGroupHelper = gui.guiHelper.BoxSizerHelper(self, sizer=messagesGroupSizer)
 
 		self.announceActiveWindowsCheckbox = messagesGroupHelper.addItem(
-		# Translators: The label for a checkbox in the custom level settings dialog.
+			# Translators: The label for a checkbox in the custom level settings dialog.
 			wx.CheckBox(self, label=_("Announce active windows"))
 		)
-		self.announceActiveWindowsCheckbox.SetValue(_("Announce active windows") in enabledControls)
+		self.announceActiveWindowsCheckbox.SetValue(config.conf["pausingInfo"]["announceActiveWindows"])
 
 		self.prefixShortcutCheckbox = messagesGroupHelper.addItem(
-		# Translators: The label for a checkbox in the custom level settings dialog.
+			# Translators: The label for a checkbox in the custom level settings dialog.
 			wx.CheckBox(self, label=_("Announce shortcut before object shortcut keys"))
 		)
-		self.prefixShortcutCheckbox.SetValue(_("Announce shortcut before object shortcut keys") in enabledControls)
+		self.prefixShortcutCheckbox.SetValue(config.conf["pausingInfo"]["announceShortcutPrefix"])
 
 		self.prefixValueCheckbox = messagesGroupHelper.addItem(
-		# Translators: The label for a checkbox in the custom level settings dialog.
+			# Translators: The label for a checkbox in the custom level settings dialog.
 			wx.CheckBox(self, label=_("Announce value before slider and scrollbar values"))
 		)
-		self.prefixValueCheckbox.SetValue(_("Announce value before slider and scrollbar values") in enabledControls)
+		self.prefixValueCheckbox.SetValue(config.conf["pausingInfo"]["announceValuePrefix"])
 
 		sHelper.addItem(messagesGroupSizer, flag=wx.EXPAND)
-
 		sHelper.addDialogDismissButtons(self.CreateButtonSizer(wx.OK | wx.CANCEL))
 
 		mainSizer.Add(sHelper.sizer, border=10, flag=wx.ALL)
 		self.SetSizer(mainSizer)
 		mainSizer.Fit(self)
-
 		self.CenterOnScreen()
 
 		self.Bind(wx.EVT_BUTTON, self.OnOk, id=wx.ID_OK)
 		self.Bind(wx.EVT_BUTTON, self.OnCancel, id=wx.ID_CANCEL)
-
 		# Sets the initial focus in the list of controls
 		wx.CallAfter(self.controlsList.SetFocus)
 
 	def GetSelections(self):
-		selectedControls = [self.controlsList.GetString(i) for i in self.controlsList.CheckedItems]
+		# Get the integer values of the selected enums
+		selectedControls = [self.controlChoices[i].value for i in self.controlsList.CheckedItems]
 
-		if self.announceActiveWindowsCheckbox.GetValue():
-			selectedControls.append(_("Announce active windows"))
-		if self.prefixShortcutCheckbox.GetValue():
-			selectedControls.append(_("Announce shortcut before object shortcut keys"))
-		if self.prefixValueCheckbox.GetValue():
-			selectedControls.append(_("Announce value before slider and scrollbar values"))
+		# Save other settings
+		config.conf["pausingInfo"]["announceActiveWindows"] = self.announceActiveWindowsCheckbox.GetValue()
+		config.conf["pausingInfo"]["announceShortcutPrefix"] = self.prefixShortcutCheckbox.GetValue()
+		config.conf["pausingInfo"]["announceValuePrefix"] = self.prefixValueCheckbox.GetValue()
 
-		config.conf["PausingInfo"]["announceActiveWindows"] = self.announceActiveWindowsCheckbox.GetValue()
-		config.conf["PausingInfo"]["announceShortcutPrefix"] = self.prefixShortcutCheckbox.GetValue()
-		config.conf["PausingInfo"]["announceValuePrefix"] = self.prefixValueCheckbox.GetValue()
-
+		# Return as list of integers (will be converted to string in OnOk)
 		return selectedControls
 
 	def OnOk(self, event):
 		try:
-			config.conf["PausingInfo"]["enabledControls"] = self.GetSelections()
+			# Convert the list of integers into a comma-separated string
+			selectedControls = self.GetSelections()
+			config.conf["pausingInfo"]["enabledControls"] = ",".join(str(role) for role in selectedControls)
 			config.conf.save()
 		except Exception as e:
 			wx.MessageBox(f"Error saving settings: {str(e)}", "Error", wx.OK | wx.ICON_ERROR)
@@ -309,36 +320,36 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		super(GlobalPlugin, self).__init__()
 		self.originalSpeakObject = speech.speakObject
 		speech.speakObject = self.customSpeakObject
-		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(PausingInfoSettingsPanel)
+		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(pausingInfoSettingsPanel)
 		self.last_announced_window = None
 
 	def terminate(self):
 		speech.speakObject = self.originalSpeakObject
-		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(PausingInfoSettingsPanel)
+		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(pausingInfoSettingsPanel)
 		super(GlobalPlugin, self).terminate()
 
 	@script(
 		# Translators: The description for the toggle script.
-		description=_("Toggles Pausing Information on and off"),
+		description=_("Toggles Pausing Info on and off"),
 		# Translators: Name of the section in "Input gestures" dialog.
 		category=_("Pausing Information"),
 		gesture="kb:NVDA+shift+p"
 	)
-	def script_togglePausingInfo(self, gesture):
-		config.conf["PausingInfo"]["enabled"] = not config.conf["PausingInfo"]["enabled"]
+	def script_togglepausingInfo(self, gesture):
+		config.conf["pausingInfo"]["enabled"] = not config.conf["pausingInfo"]["enabled"]
 		# Translators: Message announced when Pausing Info is enabled or disabled.
-		message = _("Pausing Information enabled") if config.conf["PausingInfo"]["enabled"] else _("Pausing Information disabled")
+		message = _("Pausing Info enabled") if config.conf["pausingInfo"]["enabled"] else _("Pausing Info disabled")
 		ui.message(message)
 
 	# Active window warning
 	def event_foreground(self, obj, nextHandler):
 		# Check if the add-on is activated or if the announcement of active windows is deactivated on custom message extension level
-		if not config.conf["PausingInfo"]["enabled"]:
+		if not config.conf["pausingInfo"]["enabled"]:
 			nextHandler()
 			return
 
-		message_extension = config.conf["PausingInfo"]["messageExtension"]
-		announce_active_windows = config.conf["PausingInfo"].get("announceActiveWindows", False)
+		message_extension = config.conf["pausingInfo"]["messageExtension"]
+		announce_active_windows = config.conf["pausingInfo"].get("announceActiveWindows", False)
 		
 		if message_extension == 3 and not announce_active_windows:
 				nextHandler()
@@ -360,35 +371,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	# nextHandler() remains commented out to avoid problems with the announcement
 
-	def customSpeakObject(self, obj, *args, **kwargs):
-		if not config.conf["PausingInfo"]["enabled"]:
-			self.originalSpeakObject(obj, *args, **kwargs)
-			return
+	def build_description_parts(self, obj, message_extension, enabledControls=None):
+		description_parts = []
 
-		if obj.role in [controlTypes.Role.DIALOG, controlTypes.Role.PANE, controlTypes.Role.WINDOW] and obj.name == self.last_announced_window:
-			self.last_announced_window = None
-			return
-
-		try:
-			message_extension = config.conf["PausingInfo"]["messageExtension"]
-			
-			if message_extension == 3:  # Custom level
-				self.speakCustomLevel(obj)
-			else:
-				self.speakDefaultLevels(obj, message_extension)
-
-		except Exception as e:
-			self.originalSpeakObject(obj, *args, **kwargs)
-
-			# If the message extension is 3 (Custom), apply the custom reading logic
-	def speakCustomLevel(self, obj):
 		if obj.role in IGNORED_CONTROL_TYPES:
 			self.originalSpeakObject(obj, *args, **kwargs)
 			return
-
-		description_parts = []
-		enabledControls = config.conf["PausingInfo"].get("enabledControls", [])
-		control_type_name = CONTROL_TYPE_NAMES.get(obj.role)
 
 		# Always announce the name of the object, if available
 		if obj.name:
@@ -399,13 +387,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if obj.value:
 				description_parts.append(obj.value)
 
-		# Announce control type if enabled
-		if control_type_name and control_type_name in enabledControls:
-			control_type_name = self.get_control_type(obj)
-			description_parts.append(control_type_name)
+		# Announce the control type if enabled or according to the message extension level
+		if message_extension == 3 and enabledControls and obj.role.value in enabledControls:
+			description_parts.append(self.get_control_type(obj))
+		elif message_extension == 2:  # Long
+			description_parts.append(self.get_control_type(obj))
+		elif message_extension in [0, 1] and obj.role not in [controlTypes.Role.LISTITEM, controlTypes.Role.TREEVIEWITEM, controlTypes.Role.MENUITEM]:
+			description_parts.append(self.get_control_type(obj))
 
 		# Announce the description of the objects that have it
-		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.LISTITEM, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
+		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.COMBOBOX, controlTypes.Role.DIALOG, controlTypes.Role.EDITABLETEXT, controlTypes.Role.GROUPING, controlTypes.Role.LINK, controlTypes.Role.LISTITEM, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.STATICTEXT, controlTypes.Role.TERMINAL, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
 			if obj.description:
 				description_parts.append(obj.description)
 
@@ -415,128 +406,92 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		# Announce the value for sliders and scrollbars, with or without prefix
 		if obj.role in [controlTypes.Role.SLIDER, controlTypes.Role.SCROLLBAR] and obj.value:
-			if _("Announce value before slider and scrollbar values") in enabledControls:
-				# Translators: Announced before a slider value when Announce value before slider and scrollbar values is enabled
+			if message_extension == 3:  # Custom level
+				if config.conf["pausingInfo"]["announceValuePrefix"]:
+					# Translators: Announced before a slider value when the Announce value before slider and scrollbar values is enabled
+					description_parts.append(_("Value: {value}").format(value=obj.value))
+				else:
+					description_parts.append(str(obj.value))
+			elif message_extension > 0:
+				# Translators: Announced before a slider value when the message extension is medium or higher
 				description_parts.append(_("Value: {value}").format(value=obj.value))
 			else:
 				description_parts.append(str(obj.value))
 
 		# Announce the shortcut, with or without prefix
 		if hasattr(obj, 'keyboardShortcut') and obj.keyboardShortcut:
-			if _("Announce shortcut before object shortcut keys") in enabledControls:
-					# Translators: Announced before the shortcut key of an object when Announce shortcut before object shortcut keys is enabled
+			if message_extension == 3:  # Custom level
+				if config.conf["pausingInfo"]["announceShortcutPrefix"]:
+					# Translators: Announced before the shortcut key of an object when the Announce shortcut before object shortcut keys is enabled
+					description_parts.append(_("Shortcut: {shortcut}").format(shortcut=obj.keyboardShortcut))
+				else:
+					description_parts.append(str(obj.keyboardShortcut))
+			elif message_extension > 0:
+				# Translators: Announced before the shortcut key of an object when the message extension is medium or higher
 				description_parts.append(_("Shortcut: {shortcut}").format(shortcut=obj.keyboardShortcut))
 			else:
 				description_parts.append(str(obj.keyboardShortcut))
 
 		# Announce position information, when applicable
-		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
+		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.SLIDER, controlTypes.Role.TAB, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TREEVIEWITEM]:
 			position_info = self.get_position_info(obj)
 			if position_info:
 				description_parts.extend(position_info)
 
-		# Announce the value of the progress bars
-		if obj.role == controlTypes.Role.PROGRESSBAR:
-			if obj.value:
-				description_parts.append(obj.value)
-
 		# Announce the contents of edit boxes and editable documents
-		if obj.role in [controlTypes.Role.DOCUMENT, controlTypes.Role.EDITABLETEXT]:
+		if obj.role in [controlTypes.Role.DOCUMENT, controlTypes.Role.EDITABLETEXT, controlTypes.Role.STATICTEXT, controlTypes.Role.TERMINAL]:
 			self.add_document_content(obj, description_parts)
 
-		# Finalize and announce the description
-		final_description = " - ".join(filter(None, description_parts))
-		if final_description:
-			ui.message(final_description)
+		# Announce the value of the progress bars and certain list items that have it
+		if obj.role in [controlTypes.Role.LISTITEM, controlTypes.Role.PROGRESSBAR] and obj.value:
+			description_parts.append(obj.value)
 
-		# Announce selected text in edit boxes and editable documents
-		if obj.role in [controlTypes.Role.DOCUMENT, controlTypes.Role.EDITABLETEXT]:
-			self.announce_selected_text(obj)
+		return description_parts
 
-			# Finish here for the custom extension
-
-	# apply the normal reading logic to the other message extension levels
-	def speakDefaultLevels(self, obj, message_extension):
-		if obj.role in IGNORED_CONTROL_TYPES:
+	def customSpeakObject(self, obj, *args, **kwargs):
+		if not config.conf["pausingInfo"]["enabled"]:
 			self.originalSpeakObject(obj, *args, **kwargs)
 			return
 
-		description_parts = []
+		if obj.role in [controlTypes.Role.DIALOG, controlTypes.Role.PANE, controlTypes.Role.WINDOW] and obj.name == self.last_announced_window:
+			self.last_announced_window = None
+			return
 
-		# Object name
-		if obj.name:
-			description_parts.append(obj.name)
+		try:
+			message_extension = config.conf["pausingInfo"]["messageExtension"]
+			enabledControls = [int(role) for role in config.conf["pausingInfo"].get("enabledControls", "").split(",")] if config.conf["pausingInfo"].get("enabledControls", "") else []
 
-		# Processing the combo boxes and hotkey fields
-		if obj.role in [controlTypes.Role.COMBOBOX, controlTypes.Role.HOTKEYFIELD]:
-			if obj.value:
-				description_parts.append(obj.value)
+			# Finalize and announce the description
+			description_parts = self.build_description_parts(obj, message_extension, enabledControls if message_extension == 3 else None)
+			final_description = " - ".join(filter(None, description_parts))
+			if final_description:
+				ui.message(final_description)
 
-		# Type of control
-		control_type = self.get_control_type(obj)
-		if control_type:
-			if message_extension == 2 or obj.role not in [controlTypes.Role.LISTITEM, controlTypes.Role.TREEVIEWITEM, controlTypes.Role.MENUITEM]:
-				description_parts.append(control_type)
-
-		# Read the description of certain objects, where applicable
-		if obj.role in [controlTypes.Role.ALERT, controlTypes.Role.BUTTON, controlTypes.Role.DIALOG, controlTypes.Role.GROUPING, controlTypes.Role.LISTITEM, controlTypes.Role.MENUBAR, controlTypes.Role.MENUBUTTON, controlTypes.Role.PROPERTYPAGE, controlTypes.Role.SCROLLBAR, controlTypes.Role.SPLITBUTTON, controlTypes.Role.TOGGLEBUTTON, controlTypes.Role.TOOLBAR]:
-			if obj.description:
-				description_parts.append(obj.description)
-
-		# Processing sliders and scroll bars
-		if obj.role in [controlTypes.Role.SCROLLBAR, controlTypes.Role.SLIDER]:
-			if obj.value:
-				if config.conf["PausingInfo"]["messageExtension"] > 0:
-					# Translators: Announced before a slider value when the message extension is medium or higher
-					description_parts.append(_("Value: {value}").format(value=obj.value))
-				else:
-					description_parts.append(str(obj.value))
-
-		# Reading the contents of edit boxes and editable documents, where applicable
-		if obj.role in [controlTypes.Role.DOCUMENT, controlTypes.Role.EDITABLETEXT]:
-			self.add_document_content(obj, description_parts)
-
-		# Reading the value of the progress bars
-		if obj.role == controlTypes.Role.PROGRESSBAR:
-			if obj.value:
-				description_parts.append(obj.value)
-
-		# Relevant states (including negative ones)
-		relevant_states = self.get_relevant_states(obj, None)
-		description_parts.extend(relevant_states)
-
-		# Processing the index and the level of items in the tree view, in lists and in other objects, where applicable
-		if obj.role in [controlTypes.Role.BUTTON, controlTypes.Role.HEADING, controlTypes.Role.ICON, controlTypes.Role.LISTITEM, controlTypes.Role.MENUITEM, controlTypes.Role.TAB, controlTypes.Role.TREEVIEWITEM]:
-			position_info = self.get_position_info(obj)
-			if position_info:
-				description_parts.extend(position_info)
-
-		# Announcement of shortcut keys
-		if hasattr(obj, 'keyboardShortcut') and obj.keyboardShortcut:
-				if config.conf["PausingInfo"]["messageExtension"] > 0:
-					# Translators: Announced before the shortcut key of an object when the message extension is medium or higher
-					description_parts.append(_("Shortcut: {shortcut}").format(shortcut=obj.keyboardShortcut))
-				else:
-					description_parts.append(str(obj.keyboardShortcut))
-
-		# Finalize and announce the description
-		final_description = " - ".join(filter(None, description_parts))
-		if final_description:
-			ui.message(final_description)
-
-		# Reading selected text in edit boxes and editable documents
-		if obj.role in [controlTypes.Role.DOCUMENT, controlTypes.Role.EDITABLETEXT]:
-			self.announce_selected_text(obj)
+			# Announce selected text in edit boxes and editable documents
+			if obj.role in [controlTypes.Role.DOCUMENT, controlTypes.Role.EDITABLETEXT]:
+				self.announce_selected_text(obj)
+		except Exception as e:
+			self.originalSpeakObject(obj, *args, **kwargs)
 
 	# Auxiliary function for obtaining the relevant statuses
 	def get_relevant_states(self, obj, enabledControls):
 		relevant_states = []
-		use_custom_translations = config.conf["PausingInfo"]["useCustomTranslations"]
+		use_custom_translations = config.conf["pausingInfo"]["useCustomTranslations"]
 		
+		last_obj = getattr(self, 'last_menu_item', None)
+		last_states = getattr(self, 'last_menu_states', [])
+
 		for state in obj.states:
 			if state not in IGNORED_STATES:
 				state_name = STATE_NAMES.get(state) if use_custom_translations else controlTypes.stateLabels.get(state)
 				if state_name:
+					# Avoid announcing "subMenu" for the collapsed menu items
+					if state == controlTypes.State.HASPOPUP and controlTypes.State.COLLAPSED in obj.states and obj.role == controlTypes.Role.MENUITEM:
+						continue
+					# Avoid repeating "unavailable" or "checked" in sequence
+					if state in [controlTypes.State.UNAVAILABLE, controlTypes.State.CHECKED] and obj.role == controlTypes.Role.MENUITEM:
+						if last_obj and last_obj.role == controlTypes.Role.MENUITEM and state_name in last_states:
+							continue
 					if enabledControls is None or state_name in enabledControls:
 						if state == controlTypes.State.READONLY:
 							if self.is_read_only_relevant(obj):
@@ -545,9 +500,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 							relevant_states.append(state_name)
 
 		negative_state = self.get_relevant_negative_state(obj)
-		if negative_state:
-			if enabledControls is None or negative_state in enabledControls:
-				relevant_states.append(negative_state)
+		if negative_state and (enabledControls is None or negative_state in enabledControls):
+			relevant_states.append(negative_state)
+
+		if obj.role == controlTypes.Role.MENUITEM:
+			self.last_menu_item = obj
+			self.last_menu_states = relevant_states
+		else:
+			self.last_menu_item = None
+			self.last_menu_states = []
 
 		return relevant_states
 
@@ -588,7 +549,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	# Auxiliary function to obtain the type of control
 	def get_control_type(self, obj):
-		if config.conf["PausingInfo"]["useCustomTranslations"]:
+		if config.conf["pausingInfo"]["useCustomTranslations"]:
 			return CONTROL_TYPE_NAMES.get(obj.role)
 		return controlTypes.roleLabels.get(obj.role)
 
@@ -607,7 +568,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	# Auxiliary function to obtain the relevant negative states
 	def get_relevant_negative_state(self, obj):
-		if config.conf["PausingInfo"]["useCustomTranslations"]:
+		if config.conf["pausingInfo"]["useCustomTranslations"]:
 			if obj.role == controlTypes.Role.CHECKBOX:
 				return NEGATIVE_STATE_NAMES[controlTypes.State.CHECKED] if controlTypes.State.CHECKED not in obj.states else None
 			elif obj.role == controlTypes.Role.RADIOBUTTON:

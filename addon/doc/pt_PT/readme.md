@@ -6,7 +6,7 @@ O extra “Informação Pausada” para NVDA é uma extensão que proporciona um
 
 Esta funcionalidade foi inspirada no leitor de ecrã brasileiro “Virtual Vision”, conhecido pela sua forma pausada de anunciar a informação, melhorando a compreensão do utilizador.
 
-Este extra é suposto ser utilizado com o [sintetizador DeltaTalk](https://cld.pt/dl/download/2fbe0f2a-3a24-41f3-96f5-9ff9a5a88b07/DeltaTalk%20TTS.exe?dl=true) para garantir uma experiência de leitura completa semelhante à do Virtual Vision, mas é perfeitamente compatível com qualquer outro sintetizador que esteja a ser utilizado pelo NVDA.
+Este extra é suposto ser utilizado com o [sintetizador DeltaTalk](https://intervox.nce.ufrj.br/~wendrill/progs/sintets/DeltaTalk%20TTS.exe) para garantir uma experiência de leitura completa semelhante à do Virtual Vision, mas é perfeitamente compatível com qualquer outro sintetizador que esteja a ser utilizado pelo NVDA.
 
 ## Nota importante
 A leitura pausada baseia-se exclusivamente no nível de pontuação. São adicionados hífenes para pausar a leitura da informação. Se o nível de pontuação estiver definido para algo acima de “alguns”, os hífenes serão lidos em voz alta.
@@ -28,9 +28,9 @@ Após a instalação, o extra funciona automaticamente, permitindo uma leitura m
 
 Como mencionado, não é necessária qualquer configuração adicional quando se utiliza o extra. As configurações predefinidas fornecem uma experiência de leitura de ecrã e de navegação no Windows muito semelhante à do Virtual Vision, especialmente quando este extra é usado com o sintetizador DeltaTalk.
 
-No entanto, as seguintes opções de configuração, que lhe permitem ajustar o funcionamento do extra ao seu gosto ou às suas necessidades, estão disponíveis a partir da categoria “Informação pausada” no diálogo de configurações do NVDA:
+No entanto, as seguintes opções de configuração, que lhe permitem ajustar o funcionamento do extra ao seu gosto ou às suas necessidades, estão disponíveis a partir da categoria “Informação Pausada” no diálogo de configurações do NVDA:
 
-* Ativar a leitura pausada dos tipos e estados de controlo: Se desmarcar esta opção, o extra será completamente desativado e todas as outras opções de configuração ficarão indisponíveis. Também pode ativar/desativar o extra utilizando o atalho NVDA+Shift+P. Este atalho pode ser modificado a partir do diálogo “Definir comandos” do NVDA, categoria “Informação pausada”.
+* Ativar a leitura pausada dos tipos e estados de controlo: Se desmarcar esta opção, o extra será completamente desativado e todas as outras opções de configuração ficarão indisponíveis. Também pode ativar/desativar o extra utilizando o atalho NVDA+Shift+P. Este atalho pode ser modificado a partir do diálogo “Definir comandos” do NVDA, categoria “Informação Pausada”.
 * Permitir que o extra traduza os nomes dos tipos e estados dos controlos: Se esta opção estiver marcada, o Extra utilizará um dicionário interno para traduzir os nomes dos tipos e estados dos controlos. Caso contrário, serão utilizadas as traduções internas do NVDA.
 * Extensão da mensagem: Este grupo de botões de opção controla a quantidade de informação a ser falada.
     * Curta: Apenas as informações de navegação essenciais do NVDA serão faladas.
@@ -57,15 +57,29 @@ Ao definir o nível de extensão da mensagem como “Personalizado”, pode ajus
     * Quando um botão de alternância é premido ou um item de lista é selecionado, a desativação do botão ou a anulação da seleção do item não os anuncia.
     * Esta falha só ocorre na primeira vez que se desmarca uma caixa de verificação, se desativa um botão de alternância ou se anula a seleção de um item de lista com a Barra de Espaço ou Control+Barra de Espaço.
     * Para ter a certeza, pode utilizar o atalho NVDA+Tab para que a informação seja repetida pelo NVDA. Neste caso, o estado será anunciado corretamente.
-* Em alguns tipos de menus, como os do Thunderbird, a leitura é um pouco estranha. A informação “submenu” é anunciada várias vezes, mesmo quando não é necessária. Nestes casos, até que seja encontrada uma solução para este problema, recomenda-se desativar temporariamente o extra através da tecla de atalho ao navegar pelos menus do Thunderbird e outros menus semelhantes.
+* Em alguns tipos de menus, como os do Thunderbird, a leitura é um pouco estranha. As informações “submenu” e “indisponível” são anunciadas várias vezes, mesmo quando não é necessário. Nestes casos, até que seja encontrada uma solução para este problema, recomenda-se desativar temporariamente o extra através da tecla de atalho ao navegar pelos menus do Thunderbird e outros menus semelhantes.
+* Em alguns tipos de caixas de diálogo que não têm um título associado, o seu conteúdo não é lido automaticamente pelo extra.
+* O anúncio de janelas ativas, em certos casos, faz com que esta informação seja anunciada incorretamente, por exemplo, ao abrir uma caixa combinada com o atalho Alt+Seta para baixo ou ao abrir um menu de contexto como o do Google Chrome.
 
-## Desenvolvimento Futuro
+## Integração com o DeltaTalk
 
-Este extra foi criado como um protótipo. Quando o extra do sintetizador DeltaTalk para o NVDA estiver totalmente desenvolvido, a funcionalidade deste protótipo será incluída como parte do extra.
+O sintetizador DeltaTalk em formato dedicado para o NVDA já está totalmente desenvolvido, portanto, a funcionalidade deste extra foi integrada ao sintetizador como um módulo chamado “Modo Virtual Vision”. Por isso, esta será a última versão independente deste extra.
 
-Um agradecimento especial ao Chat GPT pela sua colaboração exaustiva no desenvolvimento deste protótipo, e também ao Claude pela sua ajuda nos ajustes adicionais que melhoraram muito o funcionamento.
+Um agradecimento especial ao Chat GPT pela sua colaboração exaustiva no desenvolvimento deste extra como um protótipo inicial, e também ao Claude pela sua ajuda nos ajustes adicionais que melhoraram muito o funcionamento, e ao Groc pela sua ajuda na correção dos últimos erros antes do lançamento da última versão.
+
+Um agradecimento especial também a todas as pessoas que experimentaram este protótipo e contribuíram com relatórios de erros e sugestões muito valiosas.
 
 ## Histórico de alterações
+
+### Versão 1.5
+
+* O estado “internal_link” (que identifica os links para a mesma página) foi acrescentado à lista dos estados a anunciar.
+* Foram também acrescentados mais alguns controlos à lista de tipos de controlo a anunciar.
+* Foi criada uma lógica que verifica a presença da versão antiga do extra e remove-a antes de instalar esta nova versão.
+* O extra está agora disponível na loja de extras do NVDA. Basta procurar por “Informação Pausada”.
+* Foi corrigido um problema em que as configurações para o nível de extensão da mensagem personalizada se perdiam quando o NVDA era reiniciado ou quando o seu idioma era alterado.
+* O código do extra foi simplificado e as partes desnecessárias e repetidas foram eliminadas para facilitar a manutenção.
+* A funcionalidade do extra foi integrada no DeltaTalk como o “Modo Virtual Vision”, pelo que esta será a última versão autónoma.
 
 ### Versão 1.4
 

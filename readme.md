@@ -29,27 +29,27 @@ After installation, the add-on works automatically, allowing a more detailed and
 
 As mentioned, no additional configuration is required when using the add-on. The default settings provide a screen reading and Windows navigation experience very similar to that of Virtual Vision, especially when this add-on is used with the DeltaTalk synthesizer.
 
-However, the following configuration options, which allow you to adjust the operation of the add-on to your liking or needs, are available from the “Pausing information” category in the NVDA settings dialog:
+However, the following configuration options, which allow you to adjust the operation of the add-on to your liking or needs, are available from the “Pausing Information” category in the NVDA settings dialog:
 
-* Enable paused reading of control types and states: If you uncheck this option, the add-on will be completely disabled and all other configuration options will be unavailable. You can also activate/deactivate the add-on using the NVDA+Shift+P shortcut. This shortcut can be modified from NVDA's "Input gestures" dialog, "Pausing information" category.
+* Enable paused reading of control types and states: If you uncheck this option, the add-on will be completely disabled and all other configuration options will be unavailable. You can also activate/deactivate the add-on using the NVDA+Shift+P shortcut. This shortcut can be modified from NVDA's “Input gestures” dialog, “Pausing Information” category.
 * Allow the add-on to translate the names of control types and states: If this option is checked, the add-on will use an internal dictionary to translate the names of the types and states of the controls. Otherwise, NVDA's internal translations will be used.
 Note: For now, this option only has a major impact on Portuguese languages. In English, there are no significant differences.
 * Message length: This group of radio buttons controls the amount of information to be spoken.
     * Short: Only essential NVDA navigation information will be spoken.
-    * Medium: In addition to NVDA's essential navigation information, some extra information will be added. For example, when an object has a shortcut key associated with it, you will hear the information "shortcut" before the shortcut key is announced. You will also hear the "value" information before announcing the value of the sliders and scroll bars.
+    * Medium: In addition to NVDA's essential navigation information, some extra information will be added. For example, when an object has a shortcut key associated with it, you will hear the information “shortcut” before the shortcut key is announced. You will also hear the “value” information before announcing the value of the sliders and scroll bars.
     * Long: The add-on will add another set of information on top of the above. When you navigate through the items in a list, tree view or menus, you will hear the corresponding information according to the type of item. The add-on will also warn you whenever a window is activated. This is the default setting.
     * Custom: With this option, you can individually control all the information announced by the add-on.
 
 #### Settings for the custom level
 
-By setting the message extension level to "Custom", you can individually adjust all the information announced by the add-on, for example, you can deactivate the information you don't want or don't need to be announced. You can do this via the "Configure" button. This button is only available when the custom message extension level is selected. Clicking this button opens a configuration dialog for the custom level, with the following options:
+By setting the message extension level to “Custom”, you can individually adjust all the information announced by the add-on, for example, you can deactivate the information you don't want or don't need to be announced. You can do this via the “Configure” button. This button is only available when the custom message extension level is selected. Clicking this button opens a configuration dialog for the custom level, with the following options:
 
 * Select the controls to be announced: In this list, you can activate or deactivate all the control types supported by the add-on. For deactivated controls, only the name and status (if applicable) will be announced.
 
 * Other additional messages: This group of controls contains the following options:
     * Announce active windows: Announces whenever a window is activated.
-    * Announce shortcut before object shortcut keys: When an object has an associated shortcut key, it announces the "shortcut" information before the corresponding shortcut key is announced.
-    * Announce value before slider and scrollbar values: When focusing on a slider or scroll bar, it announces the "value" information before the value is announced.
+    * Announce shortcut before object shortcut keys: When an object has an associated shortcut key, it announces the “shortcut” information before the corresponding shortcut key is announced.
+    * Announce value before slider and scrollbar values: When focusing on a slider or scroll bar, it announces the “value” information before the value is announced.
 
 ## Known issues
 
@@ -60,14 +60,28 @@ By setting the message extension level to "Custom", you can individually adjust 
     * This fault only occurs the first time you deselect a checkbox, deactivate a toggle button or deselect a list item with the Spacebar or Control+Spacebar.
     * To be sure, you can use the NVDA+Tab shortcut to have the information repeated by NVDA. In this case, the status will be announced correctly.
 * In some types of menus, such as those in Thunderbird, the reading is a little strange. The information “submenu” is announced several times, even when it is not necessary. In these cases, until a solution to this problem is found, it is recommended to temporarily disable the add-on via the shortcut key when navigating through Thunderbird menus and other similar menus.
+* In some types of dialog boxes that do not have an associated title, their content is not automatically read by the extra.
+* The announcement of active windows, in certain cases, causes this information to be announced incorrectly, for example, when opening a combo box with the Alt+Down Arrow shortcut or when opening a context menu such as the one in Google Chrome.
 
-## Future Development
+## Integration with DeltaTalk
 
-This add-on was created as a prototype. When the DeltaTalk synthesizer add-on for NVDA is fully developed, the functionality of this prototype will be included as part of the add-on.
+The DeltaTalk synthesizer in dedicated format for NVDA is already fully developed, so the functionality of this add-on has been integrated into the synthesizer as a module called “Virtual Vision Mode”. So this will be the last independent version of this add-on.
 
-Special thanks to Chat GPT for his exhaustive collaboration in the development of this prototype, and also to Claude for his help with the additional tweaks that greatly improved the functionality.
+Special thanks to Chat GPT for his exhaustive collaboration in the development of this add-on as an initial prototype, and also to Claude for his help with the additional tweaks that greatly improved the functionality, and to Groc for his help in fixing the last few bugs before the latest version was released.
+
+Special thanks also to all the people who tried out this prototype and contributed with error reports and very valuable suggestions.
 
 ## Change history
+
+### Version 0.5
+
+* The “internal_link” status (which identifies links to the same page) has been added to the list of states to be announced.
+* A few more controls have also been added to the list of control types to be announced.
+* A logic has been created that checks for the presence of the old version of the add-on and removes it before installing this new version.
+* The add-on is now available in the NVDA add-ons store. Just search for “Pausing Information”.
+* Fixed an issue where Settings for the custom message extension level were lost when NVDA was restarted or when its language was changed.
+* The code of the add-on has been simplified and unnecessary and repeated parts have been removed to make it easier to maintain.
+* The add-on functionality has been integrated into DeltaTalk as “Virtual Vision Mode”, so this will be the last stand-alone version.
 
 ### Version 1.4
 
